@@ -3,9 +3,7 @@ A Star Citizen Bot using data from https://api.star-citizen.wiki
 
 ## Commands
 * `sc_ship name`
-  * Get information about a ship by name
-* `sc_vehicle name`
-  * Get information about a vehicle by name
+  * Get information about a ship or vehicle by name
 * `sc_manufacturer name`
   * Get information about a manufacturer by name
 * `sc_system name`
