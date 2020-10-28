@@ -6,6 +6,7 @@ const createDTO = require('../lib/dto/system-api-dto')
 module.exports = {
   name: 'system',
   description: 'Erzeugt eine Informationskarte zu einem bestimmten Sternensystemnamen. Es können nur solche Sternensysteme angezeigt werden, welche in der Starmap verfügbar sind.',
+  aliases: ['sys'],
   args: true,
   usage: '<Sternensystem>',
   cooldown: 3,
