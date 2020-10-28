@@ -67,7 +67,7 @@ client.on('message', message => {
       const timeLeft = (expirationTime - now) / 1000
 
       log(`User ${message.author.username} trying to use command on cooldown`, {
-        use: message.author.username,
+        user: message.author.username,
         command: command.name
       }, 'debug')
 
