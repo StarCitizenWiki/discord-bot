@@ -6,6 +6,8 @@ A Star Citizen Bot using data from https://api.star-citizen.wiki
   * Get information about a ship by name
 * `sc_vehicle name`
   * Get information about a vehicle by name
+* `sc_manufacturer name`
+  * Get information about a manufacturer by name
 * `sc_system name`
   * Get information about a system by name
 * `sc_stats`
