@@ -6,7 +6,7 @@ module.exports = {
   aliases: ['commands'],
   usage: '[command name]',
   cooldown: 5,
-  execute (message, args) {
+  async execute (message, args) {
     const data = []
     const { commands } = message.client
 
@@ -22,7 +22,7 @@ module.exports = {
         })
         .catch(error => {
           console.error(`Could not send help DM to ${message.author.tag}.\n`, error)
-          message.reply('Es scheint, als könnt eich dir keine Nachricht senden...')
+          message.reply('Es scheint, als könnte ich dir keine Nachricht senden...')
         })
     }
 
@@ -34,6 +34,10 @@ module.exports = {
     }
 
     data.push(`**Name:** ${command.name}`)
+
+    if (command.aliases) {
+      data.push(`**Aliasse:** ${command.aliases.join(', ')}`);
+    }
 
     if (command.description) {
       data.push(`**Beschreibung:** ${command.description}`)
