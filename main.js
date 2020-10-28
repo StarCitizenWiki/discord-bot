@@ -78,7 +78,7 @@ client.on('message', message => {
   timestamps.set(message.author.id, now)
   setTimeout(() => timestamps.delete(message.author.id), cooldownAmount)
 
-  log(`Executing command '${message}' with args ${JSON.stringify(args)}`)
+  log(`Executing command '${command.name}' with args ${JSON.stringify(args)}`)
 
   command.execute(message, args)
     .catch(error => {
