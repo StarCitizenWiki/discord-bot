@@ -3,6 +3,7 @@
 const fs = require('fs')
 const Discord = require('discord.js')
 const { prefix, token } = require('./config.json')
+const log = require('./lib/console-logger')
 
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
@@ -23,7 +24,7 @@ for (const file of commandFiles) {
 const cooldowns = new Discord.Collection()
 
 client.once('ready', () => {
-  console.log('Ready!')
+  log('Ready!')
 })
 
 client.on('message', message => {
@@ -64,6 +65,12 @@ client.on('message', message => {
 
     if (now < expirationTime) {
       const timeLeft = (expirationTime - now) / 1000
+
+      log(`User ${message.author.username} trying to use command on cooldown`, {
+        use: message.author.username,
+        command: command.name
+      }, 'debug')
+
       return message.reply(`Bitte warte noch ${timeLeft.toFixed(1)} Sekunden bis du den Befehl \`${command.name}\` erneut benutzt.`)
     }
   }
@@ -71,22 +78,35 @@ client.on('message', message => {
   timestamps.set(message.author.id, now)
   setTimeout(() => timestamps.delete(message.author.id), cooldownAmount)
 
+  log(`Executing command '${message}' with args ${JSON.stringify(args)}`)
+
   command.execute(message, args)
     .catch(error => {
       if (error.code === 'ENOTFOUND') {
+        log('Could not connect to API', error, 'error')
+
         return message.channel.send('Die Star Citizen Wiki API ist unter der angegebenen URL nicht erreichbar.')
       }
 
       if (typeof error.response !== 'undefined' && typeof error.response.status !== 'undefined') {
         if (error.response.status === 504 || error.response.status === 500) {
+          log('Could not connect to API', error, 'error')
+
           return message.channel.send('Die Star Citizen Wiki API ist derzeit nicht erreichbar')
         }
 
         if (error.response.status === 404) {
+          log('Call resulted in 404', {
+            command: command.name,
+            args: args.join(' ')
+          }, 'debug')
+
           return message.channel.send(`Keine Daten zu "${args.join(' ')}" gefunden.`)
         }
 
         if (error.response.status === 429) {
+          log('API calls are rate-limited', {}, 'warn')
+
           return message.channel.send('Zu viele Anfragen gesendet. Bitte warten.')
         }
       }

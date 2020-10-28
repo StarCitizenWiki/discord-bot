@@ -36,7 +36,7 @@ module.exports = {
     data.push(`**Name:** ${command.name}`)
 
     if (command.aliases) {
-      data.push(`**Aliasse:** ${command.aliases.join(', ')}`);
+      data.push(`**Aliasse:** ${command.aliases.join(', ')}`)
     }
 
     if (command.description) {
