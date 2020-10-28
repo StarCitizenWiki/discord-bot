@@ -6,6 +6,12 @@ const { prefix, token } = require('./config.json')
 
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
+client.options.presence = {
+  activity: {
+    type: 'PLAYING',
+    name: 'sc_help',
+  }
+}
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 
