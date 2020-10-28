@@ -71,7 +71,7 @@ client.on('message', message => {
         return message.channel.send('Die Star Citizen Wiki API ist unter der angegebenen URL nicht erreichbar.')
       }
 
-      if (typeof error.response.status !== 'undefined') {
+      if (typeof error.response !== 'undefined' && typeof error.response.status !== 'undefined') {
         if (error.response.status === 504 || error.response.status === 500) {
           return message.channel.send('Die Star Citizen Wiki API ist derzeit nicht erreichbar')
         }
@@ -85,7 +85,7 @@ client.on('message', message => {
         }
       }
 
-      console.log(error.response)
+      console.log(error)
       message.reply('Der Befehl konnte nicht ausgeführt werden.')
     })
 })
