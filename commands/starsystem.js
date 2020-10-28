@@ -12,7 +12,7 @@ module.exports = {
   async execute (message, args) {
     const name = args.join(' ')
 
-    const apiData = await axios.get('starmap/starsystems/' + encodeURIComponent(name), {
+    const apiData = await axios.get('starmap/starsystems/' + encodeURIComponent(name.toLowerCase()), {
       params: {
         include: 'celestial_objects,jumppoints'
       }
