@@ -2,6 +2,12 @@ const axios = require('../lib/request/request')
 const Discord = require('discord.js')
 const { footer } = require('../config.json')
 
+const formatFunds = (funds) => {
+  const intVal = parseInt(funds.substr(0, funds.length - 3))
+
+  return `${intVal.toLocaleString('de-DE')}$`
+}
+
 module.exports = {
   name: 'stats',
   aliases: ['statistik', 'statistiken'],
@@ -27,7 +33,7 @@ module.exports = {
     })
 
     reply
-      .addField('Spenden', result.funds.toLocaleString('de-DE') + '$', true)
+      .addField('Spenden', formatFunds(result.funds), true)
       .addField('Fleet', result.fleet.toLocaleString('de-DE'), true)
 
     message.channel.send(reply)
