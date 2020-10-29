@@ -35,6 +35,14 @@ module.exports = {
       return
     }
 
+    const maxId = data.sort((a, b) => {
+      return b.id - a.id
+    }).pop()
+
+    if (typeof maxId !== 'undefined') {
+      await global.keyv.set('cl_id', maxId.id)
+    }
+
     const embed = createEmbed(data)
 
     let channelIds = await global.keyv.get('cl_channels')
