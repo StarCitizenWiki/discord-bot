@@ -24,12 +24,12 @@ module.exports = {
         if (!channel.includes(message.channel.id)) {
           channel.push(message.channel.id)
         } else {
-          return message.channel.send('Benachrichtigungschannel bereits hinzugefügt.')
+          return message.channel.send('Automatische Comm-Link Benachrichtigungen sind bereits aktiviert.')
         }
 
         await global.keyv.set('cl_channels', channel)
 
-        return message.channel.send('Benachrichtigungschannel hinzugefügt.')
+        return message.channel.send('Automatische Comm-Link Benachrichtigung aktiviert.')
       }
 
       if (args[0] === 'remove') {
@@ -38,14 +38,14 @@ module.exports = {
         }
 
         if (!channel.includes(message.channel.id)) {
-          return message.channel.send('Channel ist nicht abonniert.')
+          return message.channel.send('Automatische Comm-Link Benachrichtigungen sind für diesen Kanal nicht aktiviert.')
         }
 
         channel = channel.filter(id => id !== message.channel.id)
 
         await global.keyv.set('cl_channels', channel)
 
-        return message.channel.send('Benachrichtigungschannel entfernt.')
+        return message.channel.send('Automatische Comm-Link Benachrichtigung deaktiviert.')
       }
 
       return message.channel.send('Option war weder `add` noch `remove`.')
