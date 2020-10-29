@@ -1,9 +1,9 @@
 const { prefix } = require('../config.json')
 
 module.exports = {
-  name: 'help',
+  name: 'hilfe',
   description: 'Alle Befehle oder Informationen über einen bestimmten Befehl auflisten.',
-  aliases: ['commands'],
+  aliases: ['help', 'commands'],
   usage: '[command name]',
   cooldown: 5,
   async execute (message, args) {
@@ -12,13 +12,13 @@ module.exports = {
 
     if (!args.length) {
       data.push('Dies sind alle verfügbaren Befehle:')
-      data.push(commands.map(command => command.name).join(', '))
+      data.push(commands.map(command => `\`${command.name}:\` ${command.description}`).join(`\n`))
       data.push(`\nDu kannst \`${prefix}help [Befehl]\` schreiben, um Informationen zu einem spezifischen Befehl zu erhalten.`)
 
       return message.author.send(data, { split: true })
         .then(() => {
           if (message.channel.type === 'dm') return
-          message.reply('Ich habe dir ein Nachricht mit all meinen Befehlen geschickt!')
+          message.reply('Ich habe dir eine Nachricht mit all meinen Befehlen geschickt!')
         })
         .catch(error => {
           console.error(`Could not send help DM to ${message.author.tag}.\n`, error)

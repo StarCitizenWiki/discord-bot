@@ -4,6 +4,7 @@ const { footer } = require('../config.json')
 
 module.exports = {
   name: 'stats',
+  aliases: ['statistik', 'statistiken'],
   description: 'Erzeugt eine Informationskarte zu den aktuellen Spendenstatistiken und der Anzahl Citizens.',
   cooldown: 3,
   async execute (message) {
