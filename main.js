@@ -2,17 +2,23 @@
 
 const fs = require('fs')
 const Discord = require('discord.js')
-const { prefix, token } = require('./config.json')
-const log = require('./lib/console-logger')
+const Keyv = require('keyv');
 
+const { prefix, token, db, comm_link_interval } = require('./config.json')
+const log = require('./lib/console-logger')
+const commLinkSchedule = require('./schedule/comm-link-notification')
 const client = new Discord.Client()
+
 client.commands = new Discord.Collection()
 client.options.presence = {
   activity: {
     type: 'PLAYING',
-    name: 'sc_help',
+    name: `${prefix}help`,
   }
 }
+
+global.keyv = new Keyv(`sqlite://${db}`);
+global.client = client
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 
@@ -25,6 +31,11 @@ const cooldowns = new Discord.Collection()
 
 client.once('ready', () => {
   log('Ready!')
+  setInterval(()=>{
+    commLinkSchedule.execute().catch(()=>{
+      log('Error in Comm Link schedule.')
+    })
+  }, comm_link_interval)
 })
 
 client.on('message', message => {
