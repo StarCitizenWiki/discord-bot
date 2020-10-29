@@ -2,7 +2,8 @@
 
 const fs = require('fs')
 const Discord = require('discord.js')
-const Keyv = require('keyv');
+const Keyv = require('keyv')
+const KeyvFile = require('keyv-file').KeyvFile
 
 const { prefix, token, db, comm_link_interval } = require('./config.json')
 const log = require('./lib/console-logger')
@@ -17,7 +18,11 @@ client.options.presence = {
   }
 }
 
-global.keyv = new Keyv(`sqlite://${db}`);
+global.keyv = new Keyv({
+  store: new KeyvFile({
+    filename: db
+  })
+})
 global.client = client
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
@@ -31,8 +36,8 @@ const cooldowns = new Discord.Collection()
 
 client.once('ready', () => {
   log('Ready!')
-  setInterval(()=>{
-    commLinkSchedule.execute().catch(()=>{
+  setInterval(() => {
+    commLinkSchedule.execute().catch(() => {
       log('Error in Comm Link schedule.')
     })
   }, comm_link_interval)
