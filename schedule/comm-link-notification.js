@@ -37,7 +37,7 @@ module.exports = {
 
     const maxId = data.sort((a, b) => {
       return b.id - a.id
-    }).pop()
+    }).shift()
 
     if (typeof maxId !== 'undefined') {
       await global.keyv.set('cl_id', maxId.id)
