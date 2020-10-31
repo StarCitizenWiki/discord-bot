@@ -5,8 +5,13 @@ const createEmbed = require('../lib/embed/comm-links-embed')
 module.exports = {
   name: 'comm-link',
   aliases: ['cl'],
-  description: 'Erzeugt eine Informationskarte zu den aktuellsten Comm-Links.',
+  description: 'Erzeugt eine Informationskarte zu den aktuellsten Comm-Links.\nOder fügt einen Kanal als Benachrichtigungskanal für neue Comm-Links hinzu.',
   cooldown: 3,
+  examples: [
+    `Ausgabe der neuesten Comm-Links: \`$PREFIXcl\``,
+    `Hinzufügen des aktuellen Kanals zu Benachrichtigungen: \`$PREFIXcl add\``,
+    `Entfernen des aktuellen Kanals für Benachrichtigungen: \`$PREFIXcl remove\``,
+  ],
   async execute (message, args) {
     if (typeof args !== 'undefined' && args.length > 0) {
       let channel = await global.keyv.get('cl_channels')

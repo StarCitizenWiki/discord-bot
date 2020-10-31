@@ -24,8 +24,13 @@ module.exports = {
   name: 'hersteller',
   description: 'Erzeugt eine Informationskarte zu einem bestimmten Hersteller.',
   aliases: ['h', 'm', 'manufacturer'],
-  usage: '<Herstellername>',
+  usage: 'Herstellername',
   cooldown: 3,
+  examples: [
+    `Ausgabe aller Hersteller: \`$PREFIXhersteller\``,
+    `Ausgabe des Herstellers RSI: \`$PREFIXhersteller RSI\``,
+    `Ausgabe des Herstellers Anvil Aerospace: \`$PREFIXh ANVL\``,
+  ],
   async execute (message, args) {
     let data
 

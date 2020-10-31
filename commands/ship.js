@@ -6,10 +6,15 @@ const isNumeric = require('../lib/is-numeric')
 
 module.exports = {
   name: 'schiff',
-  description: 'Erzeugt eine Informationskarte zu einem bestimmten Fahrzeug. Es können nur solche Schiffe/Fahrzeuge angezeigt werden, welche in der ShipMatrix verfügbar sind. Die Seite der Ausgabe kann z.B. per `sc_schiff 2` geändert werden.',
+  description: 'Erzeugt eine Informationskarte zu einem bestimmten Raumschiff oder Fahrzeug.\nEs können nur solche Schiffe/Fahrzeuge angezeigt werden, welche in der ShipMatrix verfügbar sind.',
   aliases: ['s', 'ship', 'vehicle', 'v'],
-  usage: '<Schiffsname / Seite>',
+  usage: 'Schiffsname / Seite',
   cooldown: 3,
+  examples: [
+    `Ausgabe des Raumschiffs Carrack: \`$PREFIXschiff Carrack\``,
+    `Ausgabe aller Raumschiffe: \`$PREFIXschiff\``,
+    `Ausgabe aller Raumschiffe auf Seite 2: \`$PREFIXschiff 2\``,
+  ],
   async execute (message, args) {
     if (!args.length || (typeof args[0] === 'string' && isNumeric(args[0]))) {
       const linkData = await requestLinksData('ships', args)

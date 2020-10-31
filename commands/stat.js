@@ -14,7 +14,6 @@ module.exports = {
   description: 'Erzeugt eine Informationskarte zu den aktuellen Spendenstatistiken und der Anzahl Citizens.',
   cooldown: 3,
   async execute (message) {
-
     const apiData = await axios.get('stats/latest')
       .catch(error => {
         return error

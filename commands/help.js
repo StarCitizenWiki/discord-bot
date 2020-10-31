@@ -1,23 +1,31 @@
+const Discord = require('discord.js')
+const createdEmbed = require('../lib/embed/help-embed')
 const { prefix } = require('../config.json')
 
 module.exports = {
   name: 'hilfe',
   description: 'Alle Befehle oder Informationen über einen bestimmten Befehl auflisten.',
   aliases: ['help', 'commands'],
-  usage: '[command name]',
+  usage: 'Befehlsname',
   cooldown: 5,
   async execute (message, args) {
-    const data = []
     const { commands } = message.client
 
     if (!args.length) {
-      data.push('Dies sind alle verfügbaren Befehle:')
-      data.push(commands.map(command => `\`${command.name}:\` ${command.description}`).join(`\n`))
-      data.push(`\nDu kannst \`${prefix}help [Befehl]\` schreiben, um Informationen zu einem spezifischen Befehl zu erhalten.`)
+      const reply = new Discord.MessageEmbed({
+        title: 'Alle verfügbaren Befehle',
+        description: `Du kannst \`${prefix}${this.name} [Befehl]\` schreiben, um Informationen zu einem spezifischen Befehl zu erhalten.`
+      })
 
-      return message.author.send(data, { split: true })
+      commands.forEach(command => {
+        reply.addField(`\`${prefix}${command.name}\``, `${command.description}`)
+      })
+
+      return message.author.send(reply)
         .then(() => {
-          if (message.channel.type === 'dm') return
+          if (message.channel.type === 'dm') {
+            return
+          }
           message.reply('Ich habe dir eine Nachricht mit all meinen Befehlen geschickt!')
         })
         .catch(error => {
@@ -33,22 +41,6 @@ module.exports = {
       return message.reply('Das ist kein valider Befehl!')
     }
 
-    data.push(`**Name:** ${command.name}`)
-
-    if (command.aliases) {
-      data.push(`**Aliasse:** ${command.aliases.join(', ')}`)
-    }
-
-    if (command.description) {
-      data.push(`**Beschreibung:** ${command.description}`)
-    }
-
-    if (command.usage) {
-      data.push(`**Benutzung:** ${prefix}${command.name} ${command.usage}`)
-    }
-
-    data.push(`**Cooldown:** ${command.cooldown || 2} Sekunden`)
-
-    message.channel.send(data, { split: true })
+    message.channel.send(createdEmbed(command))
   },
 }

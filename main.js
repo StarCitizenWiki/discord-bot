@@ -5,9 +5,11 @@ const Discord = require('discord.js')
 const Keyv = require('keyv')
 const KeyvFile = require('keyv-file').KeyvFile
 
-const { prefix, token, db, comm_link_interval } = require('./config.json')
 const log = require('./lib/console-logger')
 const commLinkSchedule = require('./schedule/comm-link-notification')
+const createdEmbed = require('./lib/embed/help-embed')
+const { prefix, token, db, comm_link_interval } = require('./config.json')
+
 const client = new Discord.Client()
 
 client.commands = new Discord.Collection()
@@ -37,7 +39,7 @@ const cooldowns = new Discord.Collection()
 client.once('ready', () => {
   log('Ready!')
   setInterval(() => {
-    commLinkSchedule.execute().catch(() => {
+    commLinkSchedule().catch(() => {
       log('Error in Comm Link schedule.')
     })
   }, comm_link_interval)
@@ -59,13 +61,8 @@ client.on('message', message => {
   }
 
   if (command.args && !args.length) {
-    let reply = `Du hast keine Argumente angegeben, ${message.author}!`
-
-    if (command.usage) {
-      reply += `\nDie richtige Verwendung wäre: \`${prefix}${command.name} ${command.usage}\``
-    }
-
-    return message.channel.send(reply)
+    message.channel.send('Dieser Befehl wurde falsch verwendet, hier ist die Hilfeseite:')
+    return message.channel.send(createdEmbed(command))
   }
 
   if (!cooldowns.has(command.name)) {
@@ -132,5 +129,4 @@ client.on('message', message => {
     })
 })
 
-// Log our bot in using the token from https://discord.com/developers/applications
 client.login(token)
