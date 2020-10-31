@@ -4,7 +4,7 @@ const createEmbed = require('../lib/embed/comm-links-embed')
 
 module.exports = {
   name: 'comm-link',
-  aliases: ['cl'],
+  aliases: ['cl', 'comm-links'],
   description: 'Erzeugt eine Informationskarte zu den aktuellsten Comm-Links.\nOder fügt einen Kanal als Benachrichtigungskanal für neue Comm-Links hinzu.',
   cooldown: 3,
   examples: [

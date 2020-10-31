@@ -23,7 +23,7 @@ const loadData = async (uri, params = {}) => {
 module.exports = {
   name: 'hersteller',
   description: 'Erzeugt eine Informationskarte zu einem bestimmten Hersteller.',
-  aliases: ['h', 'm', 'manufacturer'],
+  aliases: ['h', 'm', 'manufacturer', 'manufacturers'],
   usage: 'Herstellername',
   cooldown: 3,
   examples: [

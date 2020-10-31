@@ -7,7 +7,7 @@ const isNumeric = require('../lib/is-numeric')
 module.exports = {
   name: 'fahrzeug',
   description: 'Erzeugt eine Informationskarte zu einem bestimmten Fahrzeug.\nEs können nur solche Fahrzeuge angezeigt werden, welche in der ShipMatrix verfügbar sind.',
-  aliases: ['f', 'vehicle', 'v'],
+  aliases: ['f', 'vehicle', 'v', 'vehicles', 'fahrzeuge'],
   usage: 'Fahrzeugname / Seite',
   cooldown: 3,
   examples: [
