@@ -4,7 +4,7 @@ const { prefix } = require('../config.json')
 module.exports = {
   name: 'hilfe',
   description: 'Alle Befehle oder Informationen über einen bestimmten Befehl auflisten.',
-  description_extended: `\`$PREFIXhilfe\` - Anzeige der Hilfeseite`,
+  description_short: `\`$PREFIXhilfe\` - Anzeige der Hilfeseite`,
   aliases: ['help', 'commands'],
   usage: 'Befehlsname',
   cooldown: 5,
@@ -17,8 +17,8 @@ module.exports = {
       commands.map(command => {
         let description = command.description
 
-        if (typeof command.description_extended !== 'undefined') {
-          description = command.description_extended
+        if (typeof command.description_short !== 'undefined') {
+          description = command.description_short
         }
 
         return {

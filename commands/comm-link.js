@@ -6,7 +6,7 @@ module.exports = {
   name: 'comm-link',
   aliases: ['cl', 'comm-links'],
   description: 'Erzeugt eine Informationskarte zu den aktuellsten Comm-Links.\nOder fügt einen Kanal als Benachrichtigungskanal für neue Comm-Links hinzu.',
-  description_extended: `\`$PREFIXcomm-link\` - Auflistung der aktuellen Comm-Links\n\`$PREFIXcomm-link add\` - Hinzufügen des aktuellen Kanals zu Benachrichtigungen\n\`$PREFIXcomm-link remove\` - Entfernen des aktuellen Kanals von Benachrichtigungen`,
+  description_short: `\`$PREFIXcomm-link\` - Auflistung der aktuellen Comm-Links\n\`$PREFIXcomm-link add\` - Hinzufügen des aktuellen Kanals zu Benachrichtigungen\n\`$PREFIXcomm-link remove\` - Entfernen des aktuellen Kanals von Benachrichtigungen`,
   cooldown: 3,
   examples: [
     `Ausgabe der neuesten Comm-Links: \`$PREFIXcl\``,

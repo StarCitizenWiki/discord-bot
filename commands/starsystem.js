@@ -10,7 +10,7 @@ const isNumeric = require('../lib/is-numeric')
 module.exports = {
   name: 'system',
   description: 'Erzeugt eine Informationskarte zu einem bestimmten Sternensystemnamen.\nEs können nur solche Sternensysteme angezeigt werden, welche in der Starmap verfügbar sind.\nBei der Angabe keiner Argumente werden alle verfügbaren Sternensysteme ausgegeben.',
-  description_extended: `\`$PREFIXsystem\` - Auflistung aller Sternensysteme\n\`$PREFIXsystem [Nr.]\` - Ändern der angezeigten Seite\n\`$PREFIXsystem [Name]\` - Informationen zu einzelnem Sternensystem`,
+  description_short: `\`$PREFIXsystem\` - Auflistung aller Sternensysteme\n\`$PREFIXsystem [Nr.]\` - Ändern der angezeigten Seite\n\`$PREFIXsystem [Name]\` - Informationen zu einzelnem Sternensystem`,
   aliases: ['sys', 'systeme', 'systems'],
   usage: 'Sternensystem',
   cooldown: 3,

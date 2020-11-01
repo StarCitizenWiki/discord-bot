@@ -12,7 +12,7 @@ module.exports = {
   name: 'stats',
   aliases: ['statistik', 'statistiken'],
   description: 'Erzeugt eine Informationskarte zu den aktuellen Spendenstatistiken und der Anzahl Citizens.',
-  description_extended: `\`$PREFIXstats\` - Anzeige der aktuellen Statistiken`,
+  description_short: `\`$PREFIXstats\` - Anzeige der aktuellen Statistiken`,
   cooldown: 3,
   async execute (message) {
     const apiData = await axios.get('stats/latest')
