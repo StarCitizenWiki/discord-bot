@@ -36,7 +36,9 @@ module.exports = {
     let data
 
     if (!args.length) {
-      data = await loadData('')
+      data = await loadData('', {
+        limit: 0
+      })
 
       return message.channel.send(createLinkEmbed(createLinkDTO(data.data.data)))
     }
