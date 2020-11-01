@@ -15,13 +15,21 @@ module.exports = {
       let reply = `Dies sind alle verfügbaren Befehle:\nDu kannst \`${prefix}${this.name} [Befehl]\` schreiben, um Informationen zu einem spezifischen Befehl zu erhalten.\n\n`
 
       commands.map(command => {
-        if (typeof command.description_extended === 'undefined') {
-          return command.description
+        let description = command.description
+
+        if (typeof command.description_extended !== 'undefined') {
+          description = command.description_extended
         }
 
-        return command.description_extended.replaceAll('$PREFIX', prefix)
-      }).forEach(description => {
-        reply += `${description}\n\n`
+        return {
+          description: description.replaceAll('$PREFIX', prefix),
+          name: command.name,
+          aliases: command.aliases
+        }
+      }).forEach(command => {
+        let aliases = (command.aliases ?? []).join(', ')
+
+        reply += `${command.description}\nAliasse: \`${aliases}\`\n\n`
       })
 
       return message.author.send(reply)
