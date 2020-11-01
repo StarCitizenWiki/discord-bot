@@ -1,5 +1,11 @@
 # discord-bot
-A Star Citizen Bot using data from https://api.star-citizen.wiki
+<p align="center">
+    <a href="https://discord.com/api/oauth2/authorize?client_id=770734131213500466&permissions=52224&scope=bot" alt="Add Bot">
+        <img src="https://img.shields.io/static/v1?label=Discord&color=7289DA&message=Add%20Bot&logo=discord" />
+    </a>
+</p>
+
+A Star Citizen Discord Bot using data from [the Star Citizen Wiki API](https://api.star-citizen.wiki).
 
 ## Features
 ### Ship and Vehicle Cards
