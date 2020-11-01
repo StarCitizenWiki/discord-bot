@@ -1,10 +1,10 @@
-const Discord = require('discord.js')
 const createdEmbed = require('../lib/embed/help-embed')
 const { prefix } = require('../config.json')
 
 module.exports = {
   name: 'hilfe',
   description: 'Alle Befehle oder Informationen über einen bestimmten Befehl auflisten.',
+  description_extended: `\`$PREFIXhilfe\` - Anzeige der Hilfeseite`,
   aliases: ['help', 'commands'],
   usage: 'Befehlsname',
   cooldown: 5,
@@ -12,13 +12,16 @@ module.exports = {
     const { commands } = message.client
 
     if (!args.length) {
-      const reply = new Discord.MessageEmbed({
-        title: 'Alle verfügbaren Befehle',
-        description: `Du kannst \`${prefix}${this.name} [Befehl]\` schreiben, um Informationen zu einem spezifischen Befehl zu erhalten.`
-      })
+      let reply = `Dies sind alle verfügbaren Befehle:\nDu kannst \`${prefix}${this.name} [Befehl]\` schreiben, um Informationen zu einem spezifischen Befehl zu erhalten.\n\n`
 
-      commands.forEach(command => {
-        reply.addField(`\`${prefix}${command.name}\``, `${command.description}`)
+      commands.map(command => {
+        if (typeof command.description_extended === 'undefined') {
+          return command.description
+        }
+
+        return command.description_extended.replaceAll('$PREFIX', prefix)
+      }).forEach(description => {
+        reply += `${description}\n\n`
       })
 
       return message.author.send(reply)
