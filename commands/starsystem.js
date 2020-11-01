@@ -21,7 +21,7 @@ module.exports = {
     `Ausgabe des Sternensystems Stanton: \`$PREFIXsystem Stanton\``,
   ],
   async execute (message, args) {
-    if (!args.length || (typeof args[0] === 'string' && isNumeric(args[0]))) {
+    if (!args.length || (typeof args[0] === 'string' && isNumeric(args[0]) && args.length === 1)) {
       const linkData = await requestLinksData(args)
 
       return message.channel.send(createSystemLinksEmbed(createSystemLinkDto(linkData)))

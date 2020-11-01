@@ -17,7 +17,7 @@ module.exports = {
     `Ausgabe aller Raumschiffe auf Seite 2: \`$PREFIXschiff 2\``,
   ],
   async execute (message, args) {
-    if (!args.length || (typeof args[0] === 'string' && isNumeric(args[0]))) {
+    if (!args.length || (typeof args[0] === 'string' && isNumeric(args[0]) && args.length === 1)) {
       const linkData = await requestLinksData('ships', args)
 
       return message.channel.send(createVehicleLinksEmbed(createVehicleLinkDto(linkData), 'Raumschiffe'))

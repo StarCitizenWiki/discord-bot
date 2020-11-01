@@ -17,7 +17,7 @@ module.exports = {
     `Ausgabe aller Fahrzeuge auf Seite 2: \`$PREFIXf 2\``,
   ],
   async execute (message, args) {
-    if (!args.length || (typeof args[0] === 'string' && isNumeric(args[0]))) {
+    if (!args.length || (typeof args[0] === 'string' && isNumeric(args[0]) && args.length === 1)) {
       const linkData = await requestLinksData('vehicles', args)
 
       return message.channel.send(createVehicleLinksEmbed(createVehicleLinkDto(linkData), 'Fahrzeuge'))
