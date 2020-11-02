@@ -15,7 +15,7 @@ module.exports = {
   async execute (message, args) {
     let data
     if (!args.length || (typeof args[0] === 'string' && isNumeric(args[0]) && args.length === 1)) {
-      data = await requestData('', args)
+      data = await requestData(args)
       return message.channel.send(createLinkEmbed(createLinkDTO(data)))
     }
 
