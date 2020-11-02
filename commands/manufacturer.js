@@ -1,24 +1,9 @@
-const axios = require('../lib/request/request')
+const requestData = require('../lib/request/manufacturer/request-manufacturer')
 const requestImage = require('../lib/request/request-image')
-const createEmbed = require('../lib/embed/manufacturer-embed')
-const createLinkEmbed = require('../lib/embed/manufacturer-links-embed')
-const createDTO = require('../lib/dto/manufacturer-api-dto')
-const createLinkDTO = require('../lib/dto/manufacturer-links-api-dto')
-
-const loadData = async (uri, params = {}) => {
-  const data = await axios.get(`manufacturers${uri}`, {
-    params
-  })
-    .catch(error => {
-      return error
-    })
-
-  if (data.status !== 200) {
-    throw data
-  }
-
-  return data
-}
+const createEmbed = require('../lib/embed/manufacturer/manufacturer-embed')
+const createLinkEmbed = require('../lib/embed/manufacturer/manufacturer-links-embed')
+const createDTO = require('../lib/dto/manufacturer/manufacturer-api-dto')
+const createLinkDTO = require('../lib/dto/manufacturer/manufacturer-links-api-dto')
 
 module.exports = {
   name: 'hersteller',
@@ -36,20 +21,14 @@ module.exports = {
     let data
 
     if (!args.length) {
-      data = await loadData('', {
-        limit: 0
-      })
+      data = await requestData('')
 
-      return message.channel.send(createLinkEmbed(createLinkDTO(data.data.data)))
+      return message.channel.send(createLinkEmbed(createLinkDTO(data.data)))
     }
 
     const name = args.join(' ')
 
-    data = await loadData(`/${encodeURIComponent(name.toLowerCase())}`, {
-      include: 'ships,vehicles'
-    })
-
-    const result = data.data
+    const result = await requestData(name)
     const image = await requestImage(name)
 
     const reply = createEmbed(createDTO(result.data, image))

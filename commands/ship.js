@@ -1,7 +1,9 @@
-const requestData = require('../lib/request/request-vehicle-data')
-const requestLinksData = require('../lib/request/request-vehicle-links-data')
-const createVehicleLinksEmbed = require('../lib/embed/vehicle-links-embed')
-const createVehicleLinkDto = require('../lib/dto/vehicle-links-api-dto')
+const requestData = require('../lib/request/vehicle/request-vehicle')
+const requestLinksData = require('../lib/request/vehicle/request-vehicle-links')
+const createVehicleLinksEmbed = require('../lib/embed/vehicle/vehicle-links-embed')
+const createVehicleLinkDto = require('../lib/dto/vehicle/vehicle-links-api-dto')
+const createVehicleEmbed = require('../lib/embed/vehicle/vehicle-embed')
+const createVehicleDto = require('../lib/dto/vehicle/vehicle-api-dto')
 const isNumeric = require('../lib/is-numeric')
 
 module.exports = {
@@ -30,6 +32,6 @@ module.exports = {
       reply = await requestData(args.join(' '), 'vehicles')
     }
 
-    message.channel.send(reply)
+    message.channel.send(createVehicleEmbed(createVehicleDto(reply)))
   },
 }
