@@ -16,7 +16,7 @@ client.commands = new Discord.Collection()
 client.options.presence = {
   activity: {
     type: 'PLAYING',
-    name: `${prefix}help`,
+    name: `${prefix}hilfe`,
   }
 }
 
