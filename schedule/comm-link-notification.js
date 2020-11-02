@@ -40,6 +40,8 @@ const execute = async () => {
 
   if (typeof maxId !== 'undefined') {
     await global.keyv.set('cl_id', maxId.id)
+  } else {
+    return
   }
 
   const embed = createEmbed(data)
