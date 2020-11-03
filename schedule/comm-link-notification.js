@@ -20,31 +20,38 @@ const execute = async () => {
     return
   }
 
-  const latestId = await global.keyv.get('cl_id')
+  const dataIds = data.map(commLink => commLink.id)
 
-  if (typeof latestId === 'undefined') {
-    await global.keyv.set('cl_id', data[0].id)
+  let publishedIds = await global.keyv.get('cl_id')
+
+  if (typeof publishedIds === 'undefined' || typeof publishedIds === 'number') {
+    await global.keyv.set('cl_id', dataIds)
 
     return
   }
 
-  data = data.filter(commLink => commLink.id > latestId)
+  data = data.filter(commLink => !publishedIds.includes(commLink.id))
+  const filteredIds = data.map(commLink => commLink.id)
 
   if (data.length === 0) {
     return
   }
 
-  const maxId = data.sort((a, b) => {
-    return b.id - a.id
-  }).shift()
+  publishedIds.push(...filteredIds)
 
-  if (typeof maxId !== 'undefined') {
-    await global.keyv.set('cl_id', maxId.id)
-  } else {
-    return
+  log(`Found ${filteredIds.length} new Comm-Links`, filteredIds)
+
+  if (publishedIds.length > 50) {
+    publishedIds = publishedIds.slice(publishedIds.length - 50, publishedIds.length)
   }
 
+  await global.keyv.set('cl_id', publishedIds)
+
   const embed = createEmbed(data)
+
+  if (embed.fields.length === 0) {
+    return
+  }
 
   let channelIds = await global.keyv.get('cl_channels')
   const errors = []

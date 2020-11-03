@@ -58,7 +58,9 @@ module.exports = {
     }
 
     const data = await requestData()
+    let dto = createDTO(data)
+    dto = dto.slice(0, 10)
 
-    message.channel.send(createEmbed(createDTO(data)))
+    message.channel.send(createEmbed(dto))
   },
 }
