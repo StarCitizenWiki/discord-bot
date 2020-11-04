@@ -3,6 +3,9 @@
     <a href="https://discord.com/api/oauth2/authorize?client_id=770734131213500466&permissions=52224&scope=bot" alt="Add Bot">
         <img src="https://img.shields.io/static/v1?label=Discord&color=7289DA&message=Add%20Bot&logo=discord" />
     </a>
+    <a href="https://hub.docker.com/r/scwiki/discord-bot" alt="Docker Hub">
+        <img src="https://img.shields.io/docker/pulls/scwiki/discord-bot" />
+    </a>
 </p>
 
 A Star Citizen Discord Bot using data from [the Star Citizen Wiki API](https://api.star-citizen.wiki).
