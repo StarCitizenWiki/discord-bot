@@ -3,3 +3,4 @@ npm-debug.log
 .dockerignore
 config.json
 docs
+.github
