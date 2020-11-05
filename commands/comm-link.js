@@ -1,6 +1,7 @@
 const requestData = require('../lib/request/request-comm-link-data')
 const createDTO = require('../lib/dto/comm-link-api-dto')
 const createEmbed = require('../lib/embed/comm-links-embed')
+const { database } = require('../lib/db')
 
 module.exports = {
   name: 'comm-link',
@@ -15,25 +16,23 @@ module.exports = {
   ],
   async execute (message, args) {
     if (typeof args !== 'undefined' && args.length > 0) {
-      let channel = await global.keyv.get('cl_channels')
-
-      if (typeof channel === 'undefined') {
-        channel = []
-        await global.keyv.set('cl_channels', channel)
-      }
-
       if (args[0] === 'add') {
         if (!message.guild) {
           return message.channel.send('Kann nur Serverchannel benachrichtigen.')
         }
 
-        if (!channel.includes(message.channel.id)) {
-          channel.push(message.channel.id)
+        const res = await database.models.cl_notification_channel.findOne({
+          where: { channel_id: message.channel.id }
+        })
+
+        if (!res) {
+          await database.models.cl_notification_channel.create({
+            guild_id: message.guild.id,
+            channel_id: message.channel.id,
+          })
         } else {
           return message.channel.send('Automatische Comm-Link Benachrichtigungen sind bereits aktiviert.')
         }
-
-        await global.keyv.set('cl_channels', channel)
 
         return message.channel.send('Automatische Comm-Link Benachrichtigung aktiviert.')
       }
@@ -43,13 +42,13 @@ module.exports = {
           return message.channel.send('Kann nur Serverchannel benachrichtigen.')
         }
 
-        if (!channel.includes(message.channel.id)) {
+        const res = await database.models.cl_notification_channel.destroy({
+          where: { channel_id: message.channel.id }
+        })
+
+        if (!res) {
           return message.channel.send('Automatische Comm-Link Benachrichtigungen sind für diesen Kanal nicht aktiviert.')
         }
-
-        channel = channel.filter(id => id !== message.channel.id)
-
-        await global.keyv.set('cl_channels', channel)
 
         return message.channel.send('Automatische Comm-Link Benachrichtigung deaktiviert.')
       }

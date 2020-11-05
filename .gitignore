@@ -105,4 +105,4 @@ dist
 
 .idea
 config.json
-db.json
+db.sqlite

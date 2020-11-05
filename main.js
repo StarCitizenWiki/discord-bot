@@ -2,29 +2,26 @@
 
 const fs = require('fs')
 const Discord = require('discord.js')
-const Keyv = require('keyv')
-const KeyvFile = require('keyv-file').KeyvFile
 
 const log = require('./lib/console-logger')
 const commLinkSchedule = require('./schedule/comm-link-notification')
 const createdEmbed = require('./lib/embed/help-embed')
-const { prefix, token, db, comm_link_interval } = require('./config.json')
-
+const { database, setup: setupDb } = require('./lib/db')
+const { local, prefix, token, comm_link_interval } = require('./config.json')
 const client = new Discord.Client()
 
 client.commands = new Discord.Collection()
-client.options.presence = {
-  activity: {
-    type: 'PLAYING',
-    name: `${prefix}hilfe`,
+
+if (typeof local === 'undefined' || !local) {
+  client.options.presence = {
+    activity: {
+      type: 'PLAYING',
+      name: `${prefix}hilfe`,
+    }
   }
 }
 
-global.keyv = new Keyv({
-  store: new KeyvFile({
-    filename: db
-  })
-})
+setupDb()
 global.client = client
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
@@ -38,8 +35,10 @@ const cooldowns = new Discord.Collection()
 
 client.once('ready', () => {
   log('Ready!')
+
   setInterval(() => {
-    commLinkSchedule().catch(() => {
+    commLinkSchedule().catch((e) => {
+      console.error(e)
       log('Error in Comm Link schedule.')
     })
   }, comm_link_interval)
@@ -124,9 +123,32 @@ client.on('message', message => {
         }
       }
 
-      console.log(error)
+      console.error(error)
       message.reply('Der Befehl konnte nicht ausgeführt werden.')
     })
+})
+
+client.on('guildCreate', guild => {
+  if (guild.available) {
+    return log(`Bot added to server "${guild.name}".`)
+  }
+
+  log(`Bot added to server.`)
+})
+
+client.on('guildDelete', guild => {
+  if (guild.available) {
+    log(`Bot removed from server "${guild.name}".`)
+
+    database.models.cl_notification_channel.destroy({
+      where: { guild_id: guild.id }
+    })
+
+    return
+  }
+
+  log(`Bot removed from server.`)
+
 })
 
 client.login(token)

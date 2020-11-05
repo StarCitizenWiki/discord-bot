@@ -1,7 +1,10 @@
+const { Op } = require('sequelize')
+
 const requestData = require('../lib/request/request-comm-link-data')
 const createDTO = require('../lib/dto/comm-link-api-dto')
 const createEmbed = require('../lib/embed/comm-links-embed')
 const log = require('../lib/console-logger')
+const { database } = require('../lib/db')
 
 const execute = async () => {
   log('Executing Comm-Link Notification Job')
@@ -20,15 +23,24 @@ const execute = async () => {
     return
   }
 
-  const dataIds = data.map(commLink => commLink.id)
+  let publishedIds = await database.models.cl_notified.findAll({
+    limit: 50,
+    order: [
+      ['createdAt', 'DESC']
+    ]
+  })
 
-  let publishedIds = await global.keyv.get('cl_id')
-
-  if (typeof publishedIds === 'undefined' || typeof publishedIds === 'number') {
-    await global.keyv.set('cl_id', dataIds)
+  if (publishedIds.length === 0) {
+    await database.models.cl_notified.bulkCreate(data.map(data => {
+      return {
+        cl_id: data.id
+      }
+    }))
 
     return
   }
+
+  publishedIds = publishedIds.map(id => id.cl_id)
 
   data = data.filter(commLink => !publishedIds.includes(commLink.id))
   const filteredIds = data.map(commLink => commLink.id)
@@ -37,15 +49,13 @@ const execute = async () => {
     return
   }
 
-  publishedIds.push(...filteredIds)
+  await database.models.cl_notified.bulkCreate(filteredIds.map(id => {
+    return {
+      cl_id: id
+    }
+  }))
 
   log(`Found ${filteredIds.length} new Comm-Links`, filteredIds)
-
-  if (publishedIds.length > 50) {
-    publishedIds = publishedIds.slice(publishedIds.length - 50)
-  }
-
-  await global.keyv.set('cl_id', publishedIds)
 
   const embed = createEmbed(data)
 
@@ -53,23 +63,36 @@ const execute = async () => {
     return
   }
 
-  let channelIds = await global.keyv.get('cl_channels')
+  let channelIds = await database.models.cl_notification_channel.findAll({
+    attributes: ['channel_id']
+  })
   const errors = []
 
   log(`Sending messages to ${channelIds.length} channels`)
 
-  channelIds.forEach(channelId => {
-    const channel = global.client.channels.cache.get(channelId)
+  channelIds.forEach(channelData => {
+    const channel = global.client.channels.cache.get(channelData.channel_id)
+
+    if (typeof channel === 'undefined') {
+      log(`Channel ${channelData.channel_id} does not exist anymore...`)
+
+      return errors.push(channelData.channel_id)
+    }
+
     channel.send(embed)
       .catch(() => {
-        errors.push(channelId)
+        errors.push(channelData.channel_id)
       })
   })
 
   if (errors.length > 0) {
-    channelIds = channelIds.filter(id => !errors.includes(id))
-
-    await global.keyv.set('cl_channels', channelIds)
+    await database.models.cl_notification_channel.destroy({
+      where: {
+        channel_id: {
+          [Op.in]: errors
+        }
+      }
+    })
   }
 }
 
