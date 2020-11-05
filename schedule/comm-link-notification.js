@@ -42,7 +42,7 @@ const execute = async () => {
   log(`Found ${filteredIds.length} new Comm-Links`, filteredIds)
 
   if (publishedIds.length > 50) {
-    publishedIds = publishedIds.slice(publishedIds.length - 50, publishedIds.length)
+    publishedIds = publishedIds.slice(publishedIds.length - 50)
   }
 
   await global.keyv.set('cl_id', publishedIds)
