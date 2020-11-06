@@ -28,7 +28,10 @@ module.exports = {
     }
 
     if (typeof args[0] === 'string') {
-      const user = message.guild.member(message.author)
+      let user
+      if (message.guild.available) {
+        user = message.guild.member(message.author)
+      }
 
       switch (args[0]) {
         case 'latest':
@@ -43,7 +46,7 @@ module.exports = {
 
         case 'hinzufügen':
         case 'add':
-          if (!user.hasPermission(Permissions.FLAGS.ADMINISTRATOR)) {
+          if (typeof user === 'undefined' || !user.hasPermission(Permissions.FLAGS.ADMINISTRATOR)) {
             return message.channel.send('Nur Administratoren können Benachrichtigungen verwalten.')
           }
 
@@ -64,7 +67,7 @@ module.exports = {
 
         case 'entfernen':
         case 'remove':
-          if (!user.hasPermission(Permissions.FLAGS.ADMINISTRATOR)) {
+          if (typeof user === 'undefined' || !user.hasPermission(Permissions.FLAGS.ADMINISTRATOR)) {
             return message.channel.send('Nur Administratoren können Benachrichtigungen verwalten.')
           }
 

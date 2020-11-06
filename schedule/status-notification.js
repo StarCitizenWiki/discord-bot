@@ -44,6 +44,11 @@ const execute = async () => {
   let channelIds = await database.models.incident_notification_channel.findAll({
     attributes: ['channel_id']
   })
+
+  if (channelIds.length === 0) {
+    return
+  }
+
   const errors = []
 
   log(`Sending messages to ${channelIds.length} channels`)
