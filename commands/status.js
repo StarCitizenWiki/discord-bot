@@ -29,7 +29,7 @@ module.exports = {
 
     if (typeof args[0] === 'string') {
       let user
-      if (typeof message.guild !== 'undefined' && message.guild.available) {
+      if (message.guild !== null && message.guild.available) {
         user = message.guild.member(message.author)
       }
 
