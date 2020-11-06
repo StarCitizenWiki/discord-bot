@@ -5,9 +5,11 @@ const Discord = require('discord.js')
 
 const log = require('./lib/console-logger')
 const commLinkSchedule = require('./schedule/comm-link-notification')
+const statusSchedule = require('./schedule/update-status')
+const statusNotificationSchedule = require('./schedule/status-notification')
 const createdEmbed = require('./lib/embed/help-embed')
 const { database, setup: setupDb } = require('./lib/db')
-const { local, prefix, token, comm_link_interval } = require('./config.json')
+const { local, prefix, token, comm_link_interval, status_interval, locale } = require('./config.json')
 const client = new Discord.Client()
 
 client.commands = new Discord.Collection()
@@ -42,6 +44,21 @@ client.once('ready', () => {
       log('Error in Comm Link schedule.')
     })
   }, comm_link_interval)
+
+  setInterval(() => {
+    statusSchedule()
+      .then(() => {
+        statusNotificationSchedule()
+          .catch((e) => {
+            console.error(e)
+            log('Error in Status Notification schedule.')
+          })
+      })
+      .catch((e) => {
+        console.error(e)
+        log('Error in Status schedule.')
+      })
+  }, status_interval)
 })
 
 client.on('message', message => {
@@ -141,6 +158,10 @@ client.on('guildDelete', guild => {
     log(`Bot removed from server "${guild.name}".`)
 
     database.models.cl_notification_channel.destroy({
+      where: { guild_id: guild.id }
+    })
+
+    database.models.incident_notification_channel.destroy({
       where: { guild_id: guild.id }
     })
 
