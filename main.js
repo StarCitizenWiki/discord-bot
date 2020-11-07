@@ -155,21 +155,18 @@ client.on('guildCreate', guild => {
 
 client.on('guildDelete', guild => {
   if (guild.available) {
-    log(`Bot removed from server "${guild.name}".`)
+    log(`Bot removed from server "${guild.name}".`);
 
-    database.models.cl_notification_channel.destroy({
-      where: { guild_id: guild.id }
-    })
-
-    database.models.incident_notification_channel.destroy({
-      where: { guild_id: guild.id }
+    ['cl_notification_channel', 'incident_notification_channel'].forEach(model => {
+      database.models[model].destroy({
+        where: { guild_id: guild.id }
+      })
     })
 
     return
   }
 
   log(`Bot removed from server.`)
-
 })
 
 client.login(token)

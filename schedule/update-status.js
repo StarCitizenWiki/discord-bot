@@ -4,7 +4,51 @@ const log = require('../lib/console-logger')
 const safeValueAccess = require('../lib/safe-value-access')
 const { database } = require('../lib/db')
 
-const updateStatusSystems = async () => {
+/**
+ * Compare two incidents by key
+ *
+ * @param {Object} dbIncident - Sequelize Database incident object
+ * @param {Object} liveIncident - status.rsi Object
+ * @returns {boolean}
+ */
+const incidentsEqual = (dbIncident, liveIncident) => {
+  const keysToCompare = [
+    'title',
+    'severity',
+    'affected_systems',
+    'resolved',
+    'content'
+  ]
+
+  return keysToCompare.reduce((equal, key) => {
+    if (!Object.prototype.hasOwnProperty.call(dbIncident.dataValues, key)) {
+      console.log(dbIncident)
+      throw new Error(`Key ${key} does not exist on first incident`)
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(liveIncident, key)) {
+      console.log(liveIncident)
+      throw new Error(`Key ${key} does not exist on second incident`)
+    }
+
+    let localEqual
+
+    if (typeof dbIncident[key] === 'string') {
+      localEqual = dbIncident[key].localeCompare(liveIncident[key]) === 0
+    } else {
+      localEqual = dbIncident[key] === liveIncident[key]
+    }
+
+    return equal && localEqual
+  }, true)
+}
+
+/**
+ * Update the system status for platform, pu, ea
+ *
+ * @returns {Promise<void>}
+ */
+const updateSystemsStatus = async () => {
   let statusData
 
   try {
@@ -40,6 +84,14 @@ const updateStatusSystems = async () => {
   }
 }
 
+/**
+ * Update / Create incidents
+ * Creates an incident if the id does not exist in the db
+ * Updates an incident if some keys differ
+ * @see {incidentsEqual}
+ *
+ * @returns {Promise<void>}
+ */
 const updateIncidents = async () => {
   let incidentData
 
@@ -63,39 +115,33 @@ const updateIncidents = async () => {
     }
   })
 
+  const liveIncident = {
+    incident_id: safeValueAccess('0.id', incidentData, 'INVALID', true),
+    title: safeValueAccess('0.title', incidentData, 'Undefined', true),
+    incident_date: safeValueAccess('0.date', incidentData, Date.now(), true),
+    updated_date: safeValueAccess('0.modified', incidentData, Date.now(), true),
+    severity: safeValueAccess('0.severity', incidentData, 'undefined', true),
+    affected_systems: JSON.stringify(safeValueAccess('0.affectedsystems', incidentData, '[]', true)),
+    resolved: safeValueAccess('0.resolved', incidentData, false, true),
+    content: safeValueAccess('0.content', incidentData, '', true).replace(/(<([^>]+)>)/ig, ''),
+  }
+
   if (incident === null) {
-    await database.models.rsi_system_incidents.create({
-      incident_id: safeValueAccess('0.id', incidentData, 'INVALID', true),
-      title: safeValueAccess('0.title', incidentData, 'Undefined', true),
-      incident_date: safeValueAccess('0.date', incidentData, Date.now(), true),
-      updated_date: safeValueAccess('0.modified', incidentData, Date.now(), true),
-      severity: safeValueAccess('0.severity', incidentData, 'undefined', true),
-      affected_systems: JSON.stringify(safeValueAccess('0.affectedsystems', incidentData, '[]', true)),
-      resolved: safeValueAccess('0.resolved', incidentData, false, true),
-      content: safeValueAccess('0.content', incidentData, '', true).replace(/(<([^>]+)>)/ig, ''),
-    })
+    await database.models.rsi_system_incidents.create(liveIncident)
 
     return
   }
 
-  if ((new Date(incident.updated_date)).getTime() !== (new Date(safeValueAccess('0.modified', incidentData, new Date().getTime(), true)).getTime())) {
-    await database.models.rsi_system_incidents.update({
-      title: safeValueAccess('0.title', incidentData, 'Undefined', true),
-      incident_date: safeValueAccess('0.date', incidentData, Date.now(), true),
-      updated_date: safeValueAccess('0.modified', incidentData, Date.now(), true),
-      severity: safeValueAccess('0.severity', incidentData, 'undefined', true),
-      affected_systems: JSON.stringify(safeValueAccess('0.affectedsystems', incidentData, '[]', true)),
-      resolved: safeValueAccess('0.resolved', incidentData, false, true),
-      content: safeValueAccess('0.content', incidentData, '', true).replace(/(<([^>]+)>)/ig, ''),
-    }, {
+  if (!incidentsEqual(incident, liveIncident)) {
+    await database.models.rsi_system_incidents.update(liveIncident, {
       where: {
-        incident_id: safeValueAccess('0.id', incidentData, 'INVALID', true),
+        incident_id: liveIncident.incident_id,
       }
     })
 
     await database.models.rsi_system_incidents_published.destroy({
       where: {
-        incident_id: safeValueAccess('0.id', incidentData, 'INVALID', true),
+        incident_id: liveIncident.incident_id,
       }
     })
   }
@@ -104,7 +150,7 @@ const updateIncidents = async () => {
 const execute = async () => {
   log('Executing Status Update Job')
 
-  updateStatusSystems()
+  updateSystemsStatus()
   updateIncidents()
 }
 

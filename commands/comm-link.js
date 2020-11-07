@@ -1,8 +1,7 @@
-const { Permissions } = require('discord.js')
 const requestData = require('../lib/request/request-comm-link-data')
 const createDTO = require('../lib/dto/comm-link-api-dto')
 const createEmbed = require('../lib/embed/comm-links-embed')
-const { database } = require('../lib/db')
+const manageChannelNotification = require('../lib/manage-channel-notification')
 
 module.exports = {
   name: 'comm-link',
@@ -17,47 +16,10 @@ module.exports = {
   ],
   async execute (message, args) {
     if (typeof args !== 'undefined' && args.length > 0) {
-      if (!message.guild || !message.guild.available) {
-        return message.channel.send('Kann nur Serverchannel benachrichtigen.')
-      }
-
-      const user = message.guild.member(message.author)
-      if (!user.hasPermission(Permissions.FLAGS.ADMINISTRATOR)) {
-        return message.channel.send('Nur Administratoren können Benachrichtigungen aktivieren.')
-      }
-
-      switch (args[0]) {
-        case 'hinzufügen':
-        case 'add':
-          const findResult = await database.models.cl_notification_channel.findOne({
-            where: { channel_id: message.channel.id }
-          })
-
-          if (!findResult) {
-            await database.models.cl_notification_channel.create({
-              guild_id: message.guild.id,
-              channel_id: message.channel.id,
-            })
-          } else {
-            return message.channel.send('Automatische Comm-Link Benachrichtigungen sind bereits aktiviert.')
-          }
-
-          return message.channel.send('Automatische Comm-Link Benachrichtigung aktiviert.')
-
-        case 'entfernen':
-        case 'remove':
-          const destroyResult = await database.models.cl_notification_channel.destroy({
-            where: { channel_id: message.channel.id }
-          })
-
-          if (!destroyResult) {
-            return message.channel.send('Automatische Comm-Link Benachrichtigungen sind für diesen Kanal nicht aktiviert.')
-          }
-
-          return message.channel.send('Automatische Comm-Link Benachrichtigung deaktiviert.')
-
-        default:
-          return message.channel.send('Option war weder `add` noch `remove`.')
+      try {
+        return manageChannelNotification(message, args, 'cl_notification_channel', 'Comm-Link')
+      } catch (e) {
+        console.error(e)
       }
     }
 
