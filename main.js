@@ -9,7 +9,7 @@ const statusSchedule = require('./schedule/update-status')
 const statusNotificationSchedule = require('./schedule/status-notification')
 const createdEmbed = require('./lib/embed/help-embed')
 const { database, setup: setupDb } = require('./lib/db')
-const { local, prefix, token, comm_link_interval, status_interval, locale } = require('./config.json')
+const { local, prefix, token, comm_link_interval, status_interval } = require('./config.json')
 const client = new Discord.Client()
 
 client.commands = new Discord.Collection()
