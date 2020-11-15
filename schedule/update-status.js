@@ -63,11 +63,15 @@ const updateSystemsStatus = async () => {
     return
   }
 
-  statusData = statusData.reduce((data, system) => {
+  statusData = statusData.filter(status => status !== null).reduce((data, system) => {
     data[system.name] = system.status
 
     return data
-  }, {})
+  }, {
+    platform: 'operational',
+    pu: 'operational',
+    ea: 'operational',
+  })
 
   const status = await database.models.rsi_system_status.findOne({
     order: [
@@ -150,8 +154,10 @@ const updateIncidents = async () => {
 const execute = async () => {
   log('Executing Status Update Job')
 
-  updateSystemsStatus()
-  updateIncidents()
+  return Promise.all([
+    updateSystemsStatus(),
+    updateIncidents()
+  ])
 }
 
 module.exports = execute
