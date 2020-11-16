@@ -22,7 +22,7 @@ module.exports = {
         }
 
         return {
-          description: description.replaceAll('$PREFIX', prefix),
+          description: description.replace(/\$PREFIX/g, prefix),
           name: command.name,
           aliases: command.aliases
         }
