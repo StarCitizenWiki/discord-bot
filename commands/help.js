@@ -27,7 +27,7 @@ module.exports = {
           aliases: command.aliases
         }
       }).forEach(command => {
-        let aliases = (command.aliases ?? []).join(', ')
+        let aliases = (command.aliases ?? ['\u200b']).join(', ')
 
         reply += `${command.description}\nAliasse: \`${aliases}\`\n\n`
       })
