@@ -1,7 +1,10 @@
-const requestData = require('../lib/request/person/request-person-links')
+const requestData = require('../lib/request/person/request-person-semantic-data')
+const requestLinkData = require('../lib/request/person/request-person-links')
 const requestImage = require('../lib/request/request-image')
 const createLinkEmbed = require('../lib/embed/person/person-links-embed')
 const createLinkDTO = require('../lib/dto/person/person-links-api-dto')
+const createDTO = require('../lib/dto/person/person-api-dto')
+const createEmbed = require('../lib/embed/person/person-embed')
 const isNumeric = require('../lib/is-numeric')
 
 module.exports = {
@@ -15,25 +18,19 @@ module.exports = {
   async execute (message, args) {
     let data
     if (!args.length || (typeof args[0] === 'string' && isNumeric(args[0]) && args.length === 1)) {
-      data = await requestData(args)
+      data = await requestLinkData(args)
       return message.channel.send(createLinkEmbed(createLinkDTO(data)))
     }
 
-    /*    if (!args.length) {
-          data = await requestData('')
+    const name = args.join(' ')
 
-          return message.channel.send(createLinkEmbed(createLinkDTO(data)))
-        }
+    const result = await requestData(name)
+    const image = await requestImage(name)
 
-        const name = args.join(' ')
+    const dto = createDTO(Object.entries(result)[0][1])
 
-        const result = await requestData(name)
-        const image = await requestImage(name)
+    const reply = createEmbed(dto, image)
 
-        console.log(result)
-
-        const reply = createEmbed(createDTO(result, image))
-
-        message.channel.send(reply)*/
+    message.channel.send(reply)
   },
 }
