@@ -30,7 +30,7 @@ module.exports = {
     const name = args.join(' ')
 
     const result = await requestData(name)
-    const image = await requestImage(name)
+    const image = await requestImage(`${name}|${name} (Sternensystem)`)
 
     const reply = createEmbed(createDTO(result.data, image))
 
