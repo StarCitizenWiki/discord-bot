@@ -10,6 +10,8 @@
 
 A Star Citizen Discord Bot using data from [the Star Citizen Wiki API](https://api.star-citizen.wiki).
 
+[German Citizen Spotlight text](docs/german_spotlight_text.md)
+
 ## Features
 ### Ship and Vehicle Cards
 Command `sc_ship Pioneer`
@@ -70,6 +72,12 @@ Additionally you can a channel to receive notifications if new comm-links were p
   * Get information about a system by name
 * `sc_stats`
   * Get information about the current funding and fleet stats
+* `sc_status`
+  * Get information about the current server status
+* `sc_nation`
+  * Get information about all available nations in the wiki
+* `sc_person`
+  * Get information about all available persons in the wiki
 * `sc_help`
   * List available commands
 
