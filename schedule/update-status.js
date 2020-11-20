@@ -64,7 +64,7 @@ const updateSystemsStatus = async () => {
   }
 
   statusData = statusData.filter(status => status !== null).reduce((data, system) => {
-    data[system.name] = system.status
+    data[system.name] = system.status ?? 'operational'
 
     return data
   }, {
