@@ -22,9 +22,17 @@ module.exports = {
       return message.channel.send(createLinkEmbed(createLinkDTO(data)))
     }
 
-    const name = args.join(' ')
+    const name = args.map(part => {
+      return part.charAt(0).toUpperCase() + part.slice(1)
+    })
+      .join(' ')
 
     const result = await requestData(name)
+
+    if (result === null) {
+      throw result
+    }
+
     const image = await requestImage(name)
 
     const dto = createDTO(Object.entries(result)[0][1])
