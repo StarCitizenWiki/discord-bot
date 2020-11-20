@@ -29,6 +29,7 @@ module.exports = {
     try {
       reply = await requestData(args.join(' '), 'ships')
     } catch (e) {
+      console.error(e)
       reply = await requestData(args.join(' '), 'vehicles')
     }
 
