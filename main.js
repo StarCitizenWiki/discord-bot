@@ -130,7 +130,9 @@ client.on('message', message => {
             args: args.join(' ')
           }, 'debug')
 
-          console.error(error)
+          if (error.response?.statusText !== 'Not Found') {
+            console.error(error)
+          }
 
           return message.channel.send(`Keine Daten zu "${args.join(' ')}" gefunden.`)
         }
