@@ -30,7 +30,12 @@ module.exports = {
     const result = await requestData(name)
 
     if (result === null) {
-      throw result
+      throw {
+        code: 404,
+        response: {
+          status: 404
+        }
+      }
     }
 
     const image = await requestImage(name)
