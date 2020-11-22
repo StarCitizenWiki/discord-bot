@@ -59,7 +59,7 @@ const updateSystemsStatus = async () => {
     return
   }
 
-  if (typeof statusData === 'undefined') {
+  if (typeof statusData === 'undefined' || statusData === null) {
     return
   }
 
@@ -107,7 +107,7 @@ const updateIncidents = async () => {
     return
   }
 
-  if (typeof incidentData === 'undefined' || typeof incidentData[0] === 'undefined') {
+  if (incidentData === null || typeof incidentData === 'undefined' || typeof incidentData[0] === 'undefined') {
     log('No Incidents found', {}, 'error')
 
     return
