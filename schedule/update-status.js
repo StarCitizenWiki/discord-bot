@@ -108,7 +108,7 @@ const updateIncidents = async () => {
   }
 
   if (incidentData === null || typeof incidentData === 'undefined' || typeof incidentData[0] === 'undefined') {
-    log('No Incidents found', {}, 'error')
+    log('No Incidents found', [], 'error')
 
     return
   }

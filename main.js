@@ -112,7 +112,7 @@ client.on('message', message => {
   command.execute(message, args)
     .catch(error => {
       if (error.code === 'ENOTFOUND') {
-        log('Could not connect to API', error, 'error')
+        log('Could not connect to API', error.message, 'error')
 
         return message.channel.send('Die Star Citizen Wiki API ist unter der angegebenen URL nicht erreichbar.')
       }
@@ -146,20 +146,23 @@ client.on('message', message => {
 
       console.error(error)
       message.reply('Der Befehl konnte nicht ausgeführt werden.')
+        .catch(() => {
+          log('Could not send message')
+        })
     })
 })
 
 client.on('guildCreate', guild => {
   if (guild.available) {
-    return log(`Bot added to server "${guild.name}".`)
+    return log(`Bot added to server "${guild.name}"`)
   }
 
-  log(`Bot added to server.`)
+  log(`Bot added to server`)
 })
 
 client.on('guildDelete', guild => {
   if (guild.available) {
-    log(`Bot removed from server "${guild.name}".`);
+    log(`Bot removed from server "${guild.name}"`);
 
     ['cl_notification_channel', 'incident_notification_channel'].forEach(model => {
       database.models[model].destroy({
@@ -170,7 +173,7 @@ client.on('guildDelete', guild => {
     return
   }
 
-  log(`Bot removed from server.`)
+  log(`Bot removed from server`)
 })
 
 client.login(token)
