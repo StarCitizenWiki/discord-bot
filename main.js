@@ -35,17 +35,23 @@ for (const file of commandFiles) {
 
 const cooldowns = new Discord.Collection()
 
+let comm_link_interval_id = null
+let status_interval_id = null
+
 client.once('ready', () => {
   log('Ready!')
 
-  setInterval(() => {
+  clearInterval(comm_link_interval_id)
+  clearInterval(status_interval_id)
+
+  comm_link_interval_id = setInterval(() => {
     commLinkSchedule().catch((e) => {
       console.error(e)
       log('Error in Comm Link schedule.')
     })
-  }, comm_link_interval)
+  }, comm_link_interval ?? 600000)
 
-  setInterval(() => {
+  status_interval_id = setInterval(() => {
     statusSchedule()
       .then(() => {
         statusNotificationSchedule()
@@ -58,7 +64,7 @@ client.once('ready', () => {
         console.error(e)
         log('Error in Status schedule.')
       })
-  }, status_interval)
+  }, status_interval ?? 600000)
 })
 
 client.on('message', message => {
