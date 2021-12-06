@@ -10,15 +10,7 @@ const statusNotificationSchedule = require('./schedule/status-notification')
 const createdEmbed = require('./lib/embed/help-embed')
 const { database, setup: setupDb } = require('./lib/db')
 const { local, prefix, token, comm_link_interval, status_interval } = require('./config.json')
-
-const intents = new Discord.Intents();
-intents.add(
-    Discord.Intents.FLAGS.DIRECT_MESSAGES,
-    Discord.Intents.FLAGS.GUILD_MESSAGES,
-    Discord.Intents.FLAGS.GUILDS
-);
-
-const client = new Discord.Client({ intents: intents })
+const client = new Discord.Client()
 
 client.commands = new Discord.Collection()
 
