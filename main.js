@@ -21,10 +21,6 @@ const client = new Discord.Client({
 const commandsPath = path.join(__dirname, 'commands')
 client.commands = new Discord.Collection()
 
-if (typeof local === 'undefined' || !local) {
-  client.user.setActivity('Update: /commands')
-}
-
 setupDb()
 global.client = client
 
@@ -66,6 +62,10 @@ client.once('ready', () => {
         log('Error in Status schedule.')
       })
   }, status_interval ?? 600000)
+
+  if (typeof local === 'undefined' || !local) {
+    client.user.setActivity('Update: /commands')
+  }
 })
 
 
