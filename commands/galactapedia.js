@@ -13,7 +13,7 @@ module.exports = {
       .setRequired(true)),
 
   async execute(interaction) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ ephemeral: false });
     const result = await requestData(interaction.options.getString('suche'));
 
     if (result === null) {

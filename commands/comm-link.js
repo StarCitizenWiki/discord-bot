@@ -18,7 +18,7 @@ module.exports = {
    * @returns {Promise<boolean|void>}
    */
   async execute(interaction) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ ephemeral: false });
 
     if (interaction.options.getBoolean('add') === true || interaction.options.getBoolean('remove') === true) {
       try {

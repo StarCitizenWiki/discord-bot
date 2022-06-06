@@ -119,6 +119,31 @@ client.on('interactionCreate', async interaction => {
   })
 });
 
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isAutocomplete()) return;
+
+  if (interaction.commandName === 'item') {
+    const focusedValue = interaction.options.getFocused();
+
+    const requestData = require('./lib/request/item/request-search-item');
+
+    let data = [];
+
+    if (focusedValue.length > 0) {
+      data = (await requestData(focusedValue)).result;
+    }
+
+    await interaction.respond(
+        data.map(res => {
+          return {
+            name: res.name,
+            value: res.name,
+          }
+        })
+    );
+  }
+});
+
 client.on('guildCreate', guild => {
   if (guild.available) {
     return log(`Bot added to server "${guild.name}"`)

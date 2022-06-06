@@ -19,7 +19,7 @@ module.exports = {
    * @returns {Promise<boolean|void>}
    */
   async execute(interaction) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ ephemeral: false });
 
     const apiData = await axios.get('stats/latest')
       .catch((error) => error);

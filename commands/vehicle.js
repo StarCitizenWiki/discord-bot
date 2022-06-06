@@ -18,7 +18,7 @@ module.exports = {
    * @returns {Promise<boolean|void>}
    */
   async execute(interaction) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ ephemeral: false });
 
     if (interaction.options.getInteger('seite') !== null || interaction.options.getString('name') === null) {
       const data = await requestLinkData('ships', interaction.options.getInteger('seite'));

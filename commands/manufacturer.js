@@ -17,7 +17,7 @@ module.exports = {
    * @returns {Promise<boolean|void>}
    */
   async execute(interaction) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ ephemeral: false });
 
     const name = interaction.options.getString('name');
 
