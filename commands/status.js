@@ -1,55 +1,56 @@
-const { database } = require('../lib/db')
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
-const createStatusEmbed = require('../lib/embed/status/status-services-embed')
-const createIncidentEmbed = require('../lib/embed/status/status-incident-embed')
-const manageChannelNotification = require('../lib/manage-channel-notification')
+const { database } = require('../lib/db');
+
+const createStatusEmbed = require('../lib/embed/status/status-services-embed');
+const createIncidentEmbed = require('../lib/embed/status/status-incident-embed');
+const manageChannelNotification = require('../lib/manage-channel-notification');
 
 module.exports = {
-  name: 'status',
-  description: 'Erzeugt eine Informationskarte zu dem aktuellen RSI Systemstatus.',
-  description_short: `\`$PREFIXstatus\` - Anzeige des aktuellen Systemstatus\n\`$PREFIXstatus latest\` - Anzeige des letzten Vorfalls\n\`$PREFIXstatus add\` - Hinzufügen des aktuellen Kanals zu Benachrichtigungen\n\`$PREFIXstatus remove\` - Entfernen des aktuellen Kanals von Benachrichtigungen`,
-  cooldown: 3,
-  examples: [
-    `Ausgabe des aktuellen Systemstatus: \`$PREFIXstatus\``,
-    `Ausgabe des letzten Vorfalls: \`$PREFIXstatus neueste\``,
-    `Hinzufügen des aktuellen Kanals zu Benachrichtigungen: \`$PREFIXstatus add\``,
-    `Entfernen des aktuellen Kanals für Benachrichtigungen: \`$PREFIXstatus remove\``,
-  ],
-  async execute (message, args) {
-    if (!args.length) {
+  data: new SlashCommandBuilder()
+    .setName('status')
+    .setDescription('Erzeugt eine Informationskarte zu dem aktuellen RSI Systemstatus.')
+    .addBooleanOption((option) => option.setName('latest').setDescription('Anzeige des letzten Vorfalls.'))
+    .addBooleanOption((option) => option.setName('add').setDescription('Hinzufügen des aktuellen Kanals zu Benachrichtigungen.'))
+    .addBooleanOption((option) => option.setName('remove').setDescription('Entfernt den aktuellen Kanal von Benachrichtigungen.')),
+  /**
+   * @param {CommandInteraction} interaction
+   * @returns {Promise<boolean|void>}
+   */
+  async execute(interaction) {
+    await interaction.deferReply({ ephemeral: true });
+
+    const latest = interaction.options.getBoolean('latest');
+    const add = interaction.options.getBoolean('add');
+    const remove = interaction.options.getBoolean('remove');
+
+
+    if (add === null && remove === null && latest === null) {
       const data = await database.models.rsi_system_status.findOne({
         order: [
-          ['createdAt', 'DESC']
-        ]
-      })
+          ['createdAt', 'DESC'],
+        ],
+      });
 
-      return message.channel.send(createStatusEmbed(data))
+      return interaction.editReply({ embeds: [createStatusEmbed(data)] });
     }
 
-    if (typeof args[0] !== 'string') {
-      return
+    if ((add || remove) === true) {
+      try {
+        await manageChannelNotification(interaction, 'incident_notification_channel', 'Systemstatus');
+      } catch (e) {
+        console.error(e);
+      }
+    } else if (latest === true) {
+      const data = await database.models.rsi_system_incidents.findOne({
+        order: [
+          ['createdAt', 'DESC'],
+        ],
+      });
+
+      return interaction.editReply({ embeds: [createIncidentEmbed(data)] });
     }
 
-    switch (args[0]) {
-      case 'latest':
-      case 'neueste':
-        const data = await database.models.rsi_system_incidents.findOne({
-          order: [
-            ['createdAt', 'DESC']
-          ]
-        })
-
-        return message.channel.send(createIncidentEmbed(data))
-
-      case 'hinzufügen':
-      case 'add':
-      case 'entfernen':
-      case 'remove':
-        try {
-          await manageChannelNotification(message, args, 'incident_notification_channel', 'Systemstatus')
-        } catch (e) {
-          console.error(e)
-        }
-    }
+    return interaction.editReply({content: 'Option muss auf "true" gesetzt werden.'})
   },
-}
+};

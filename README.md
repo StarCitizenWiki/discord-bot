@@ -14,79 +14,75 @@ A Star Citizen Discord Bot using data from [the Star Citizen Wiki API](https://a
 
 ## Features
 ### Ship and Vehicle Cards
-Command `sc_ship Pioneer`
+Command `/schiff Pioneer`
 
 ![Pioneer](docs/ship_pioneer.png)
 
-Command `sc_vehicle Ursa Rover`
+Command `/fahrzeug Ursa Rover`
 
 ![Pioneer](docs/vehicle_ursa_rover.png)
 
 #### Listing all available ships and vehicles
 Calling the command without arguments outputs a list of all available ships or vehicles.  
 
-Command `sc_ship`
+Command `/schiff`
 
 ![Ships](docs/ships.png)
 
 ### Starsystem Cards
-Command `sc_system Sol`
+Command `/system Sol`
 
 ![Pioneer](docs/sol_system.png)
 
 #### Listing all available systems
 Calling the command without arguments outputs a list of all available starsystems.  
 
-Command `sc_system`
+Command `/system`
 
 ![Ships](docs/systems.png)
 
 ### Manufacturer Cards
-Command `sc_manufacturer RSI`
+Command `/hersteller RSI`
 
 ![RSI](docs/manufacturer_rsi.png)
 
 #### Listing all available manufactuer
 Calling the command without arguments outputs a list of all available manufacturer.  
 
-Command `sc_manufacturer`
+Command `/hersteller`
 
 ![Ships](docs/manufacturer.png)
 
 ### Comm-Link Cards
-Command `sc_comm-links`
+Command `/comm-link`
 
 ![Comm-Links](docs/comm_links.png)
 
 #### Channel Notifications
 Additionally you can a channel to receive notifications if new comm-links were published.  
-`sc_comm-links add` -> Adds the current channel to receive notifications.  
-`sc_comm-links remove` -> Removes the current channel from receiving notifications.  
+`/comm-link add` -> Adds the current channel to receive notifications.  
+`/comm-link remove` -> Removes the current channel from receiving notifications.  
 
 ## Commands
-* `sc_ship name`
+* `/schiff name`
   * Get information about a ship or vehicle by name
-* `sc_manufacturer name`
+* `/hersteller name`
   * Get information about a manufacturer by name
-* `sc_system name`
+* `/system name`
   * Get information about a system by name
-* `sc_stats`
+* `/stats`
   * Get information about the current funding and fleet stats
-* `sc_status`
+* `/status`
   * Get information about the current server status
-* `sc_nation`
+* `/volk`
   * Get information about all available nations in the wiki
-* `sc_person`
+* `/person`
   * Get information about all available persons in the wiki
-* `sc_help`
-  * List available commands
-
-Note: Only "official" data (shipmatrix for vehicles / ships and starmap for systems), will be returned. 
+ 
   
 ## config.json
 ```json
 {
-  "prefix": "sc_",
   "token": "Bot Token",
   "api_token": null,
   "api_url": "https://api.star-citizen.wiki",

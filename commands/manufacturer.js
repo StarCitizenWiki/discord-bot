@@ -1,38 +1,35 @@
-const requestData = require('../lib/request/manufacturer/request-manufacturer')
-const requestImage = require('../lib/request/request-image')
-const createEmbed = require('../lib/embed/manufacturer/manufacturer-embed')
-const createLinkEmbed = require('../lib/embed/manufacturer/manufacturer-links-embed')
-const createDTO = require('../lib/dto/manufacturer/manufacturer-api-dto')
-const createLinkDTO = require('../lib/dto/manufacturer/manufacturer-links-api-dto')
+const { SlashCommandBuilder } = require('@discordjs/builders');
+
+const requestData = require('../lib/request/manufacturer/request-manufacturer');
+const requestImage = require('../lib/request/request-image');
+const createEmbed = require('../lib/embed/manufacturer/manufacturer-embed');
+const createLinkEmbed = require('../lib/embed/manufacturer/manufacturer-links-embed');
+const createDTO = require('../lib/dto/manufacturer/manufacturer-api-dto');
+const createLinkDTO = require('../lib/dto/manufacturer/manufacturer-links-api-dto');
 
 module.exports = {
-  name: 'hersteller',
-  description: 'Erzeugt eine Informationskarte zu einem bestimmten Hersteller.',
-  description_short: `\`$PREFIXhersteller\` - Auflistung aller Hersteller\n\`$PREFIXhersteller [Name]\` - Informationen zu einzelnem Hersteller`,
-  aliases: ['h', 'm', 'manufacturer', 'manufacturers'],
-  usage: 'Herstellername',
-  cooldown: 3,
-  examples: [
-    `Ausgabe aller Hersteller: \`$PREFIXhersteller\``,
-    `Ausgabe des Herstellers RSI: \`$PREFIXhersteller RSI\``,
-    `Ausgabe des Herstellers Anvil Aerospace: \`$PREFIXh ANVL\``,
-  ],
-  async execute (message, args) {
-    let data
+  data: new SlashCommandBuilder()
+    .setName('hersteller')
+    .setDescription('Erzeugt eine Informationskarte zu einem bestimmten Hersteller.')
+    .addStringOption((option) => option.setName('name').setDescription('Name des Herstellers.')),
+  /**
+   * @param {CommandInteraction} interaction
+   * @returns {Promise<boolean|void>}
+   */
+  async execute(interaction) {
+    await interaction.deferReply({ ephemeral: true });
 
-    if (!args.length) {
-      data = await requestData('')
+    const name = interaction.options.getString('name');
 
-      return message.channel.send(createLinkEmbed(createLinkDTO(data.data)))
+    if (name === null) {
+      const data = await requestData('');
+
+      return interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data.data))] });
     }
 
-    const name = args.join(' ')
+    const result = await requestData(name);
+    const image = await requestImage(name);
 
-    const result = await requestData(name)
-    const image = await requestImage(name)
-
-    const reply = createEmbed(createDTO(result.data, image))
-
-    message.channel.send(reply)
+    return interaction.editReply({ embeds: [createEmbed(createDTO(result.data, image))] });
   },
-}
+};

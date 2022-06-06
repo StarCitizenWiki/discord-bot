@@ -8,15 +8,24 @@
   "main": "index.js",
   "scripts": {
     "start": "node main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "node_modules/.bin/"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/builders": "^0.14.0",
+    "@discordjs/rest": "^0.5.0",
     "axios": "^0.24.0",
-    "discord.js": "^12.5.3",
+    "discord-api-types": "^0.33.3",
+    "discord.js": "^13.8.0",
     "sequelize": "^6.11.0",
     "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
   }
 }

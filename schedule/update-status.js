@@ -1,8 +1,8 @@
-const requestStatusSystemData = require('../lib/request/status/request-status-services')
-const requestStatusIncidentData = require('../lib/request/status/request-status-incidents')
-const log = require('../lib/console-logger')
-const safeValueAccess = require('../lib/safe-value-access')
-const { database } = require('../lib/db')
+const requestStatusSystemData = require('../lib/request/status/request-status-services');
+const requestStatusIncidentData = require('../lib/request/status/request-status-incidents');
+const log = require('../lib/console-logger');
+const safeValueAccess = require('../lib/safe-value-access');
+const { database } = require('../lib/db');
 
 /**
  * Compare two incidents by key
@@ -17,31 +17,31 @@ const incidentsEqual = (dbIncident, liveIncident) => {
     'severity',
     'affected_systems',
     'resolved',
-    'content'
-  ]
+    'content',
+  ];
 
   return keysToCompare.reduce((equal, key) => {
     if (!Object.prototype.hasOwnProperty.call(dbIncident.dataValues, key)) {
-      console.log(dbIncident)
-      throw new Error(`Key ${key} does not exist on first incident`)
+      console.log(dbIncident);
+      throw new Error(`Key ${key} does not exist on first incident`);
     }
 
     if (!Object.prototype.hasOwnProperty.call(liveIncident, key)) {
-      console.log(liveIncident)
-      throw new Error(`Key ${key} does not exist on second incident`)
+      console.log(liveIncident);
+      throw new Error(`Key ${key} does not exist on second incident`);
     }
 
-    let localEqual
+    let localEqual;
 
     if (typeof dbIncident[key] === 'string') {
-      localEqual = dbIncident[key].localeCompare(liveIncident[key]) === 0
+      localEqual = dbIncident[key].localeCompare(liveIncident[key]) === 0;
     } else {
-      localEqual = dbIncident[key] === liveIncident[key]
+      localEqual = dbIncident[key] === liveIncident[key];
     }
 
-    return equal && localEqual
-  }, true)
-}
+    return equal && localEqual;
+  }, true);
+};
 
 /**
  * Update the system status for platform, pu, ea
@@ -49,44 +49,44 @@ const incidentsEqual = (dbIncident, liveIncident) => {
  * @returns {Promise<void>}
  */
 const updateSystemsStatus = async () => {
-  let statusData
+  let statusData;
 
   try {
-    statusData = await requestStatusSystemData()
+    statusData = await requestStatusSystemData();
   } catch (e) {
-    log(e, {}, 'error')
+    log(e, {}, 'error');
 
-    return
+    return;
   }
 
   if (typeof statusData === 'undefined' || statusData === null) {
-    return
+    return;
   }
 
-  statusData = statusData.filter(status => status !== null).reduce((data, system) => {
-    data[system.name] = system.status ?? 'operational'
+  statusData = statusData.filter((status) => status !== null).reduce((data, system) => {
+    data[system.name] = system.status ?? 'operational';
 
-    return data
+    return data;
   }, {
     platform: 'operational',
     pu: 'operational',
     ea: 'operational',
-  })
+  });
 
   const status = await database.models.rsi_system_status.findOne({
     order: [
-      ['createdAt', 'DESC']
-    ]
-  })
+      ['createdAt', 'DESC'],
+    ],
+  });
 
-  if (status === null ||
-    statusData.platform !== status.platform ||
-    statusData.pu !== status.pu ||
-    statusData.ea !== status.ea
+  if (status === null
+    || statusData.platform !== status.platform
+    || statusData.pu !== status.pu
+    || statusData.ea !== status.ea
   ) {
-    await database.models.rsi_system_status.create(statusData)
+    await database.models.rsi_system_status.create(statusData);
   }
-}
+};
 
 /**
  * Update / Create incidents
@@ -97,27 +97,27 @@ const updateSystemsStatus = async () => {
  * @returns {Promise<void>}
  */
 const updateIncidents = async () => {
-  let incidentData
+  let incidentData;
 
   try {
-    incidentData = await requestStatusIncidentData()
+    incidentData = await requestStatusIncidentData();
   } catch (e) {
-    log(e, {}, 'error')
+    log(e, {}, 'error');
 
-    return
+    return;
   }
 
   if (incidentData === null || typeof incidentData === 'undefined' || typeof incidentData[0] === 'undefined') {
-    log('No Incidents found', [], 'error')
+    log('No Incidents found', [], 'error');
 
-    return
+    return;
   }
 
   const incident = await database.models.rsi_system_incidents.findOne({
     where: {
-      incident_id: incidentData[0].id
-    }
-  })
+      incident_id: incidentData[0].id,
+    },
+  });
 
   const liveIncident = {
     incident_id: safeValueAccess('0.id', incidentData, 'INVALID', true),
@@ -128,36 +128,36 @@ const updateIncidents = async () => {
     affected_systems: JSON.stringify(safeValueAccess('0.affectedsystems', incidentData, '[]', true)),
     resolved: safeValueAccess('0.resolved', incidentData, false, true),
     content: safeValueAccess('0.content', incidentData, '', true).replace(/(<([^>]+)>)/ig, ''),
-  }
+  };
 
   if (incident === null) {
-    await database.models.rsi_system_incidents.create(liveIncident)
+    await database.models.rsi_system_incidents.create(liveIncident);
 
-    return
+    return;
   }
 
   if (!incidentsEqual(incident, liveIncident)) {
     await database.models.rsi_system_incidents.update(liveIncident, {
       where: {
         incident_id: liveIncident.incident_id,
-      }
-    })
+      },
+    });
 
     await database.models.rsi_system_incidents_published.destroy({
       where: {
         incident_id: liveIncident.incident_id,
-      }
-    })
+      },
+    });
   }
-}
+};
 
 const execute = async () => {
-  log('Executing Status Update Job')
+  log('Executing Status Update Job');
 
   return Promise.all([
     updateSystemsStatus(),
-    updateIncidents()
-  ])
-}
+    updateIncidents(),
+  ]);
+};
 
-module.exports = execute
+module.exports = execute;

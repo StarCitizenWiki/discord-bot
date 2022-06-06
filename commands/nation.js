@@ -1,39 +1,25 @@
-const requestData = require('../lib/request/nation/request-nation-links')
-const requestImage = require('../lib/request/request-image')
-const createLinkEmbed = require('../lib/embed/nation/nation-links-embed')
-const createLinkDTO = require('../lib/dto/nation/nation-links-api-dto')
-const isNumeric = require('../lib/is-numeric')
+const { SlashCommandBuilder } = require('@discordjs/builders');
+
+const requestData = require('../lib/request/nation/request-nation-links');
+const createLinkEmbed = require('../lib/embed/nation/nation-links-embed');
+const createLinkDTO = require('../lib/dto/nation/nation-links-api-dto');
 
 module.exports = {
-  name: 'volk',
-  description: 'Erzeugt eine Informationskarte zu einem Volk.',
-  description_short: `\`$PREFIXvolk\` - Auflistung aller im Wiki vorhandenen Völker`,
-  aliases: ['v', 'nation'],
-  //usage: 'Person',
-  cooldown: 3,
-  examples: [],
-  async execute (message, args) {
-    let data
-    if (!args.length || (typeof args[0] === 'string' && isNumeric(args[0]) && args.length === 1)) {
-      data = await requestData(args)
-      return message.channel.send(createLinkEmbed(createLinkDTO(data)))
-    }
+  data: new SlashCommandBuilder()
+    .setName('volk')
+    .setDescription('Erzeugt eine Informationskarte zu einem Volk.'),
+  // .addStringOption(option =>
+  //     option.setName('name')
+  //         .setDescription('Name des Volks')
+  //         .setRequired(true)),
+  /**
+   * @param {CommandInteraction} interaction
+   * @returns {Promise<boolean|void>}
+   */
+  async execute(interaction) {
+    await interaction.deferReply({ ephemeral: true });
 
-    /*    if (!args.length) {
-          data = await requestData('')
-
-          return message.channel.send(createLinkEmbed(createLinkDTO(data)))
-        }
-
-        const name = args.join(' ')
-
-        const result = await requestData(name)
-        const image = await requestImage(name)
-
-        console.log(result)
-
-        const reply = createEmbed(createDTO(result, image))
-
-        message.channel.send(reply)*/
+    const data = await requestData(interaction.options.getString('name'));
+    await interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data))] });
   },
-}
+};

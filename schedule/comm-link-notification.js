@@ -1,99 +1,95 @@
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
 
-const requestData = require('../lib/request/request-comm-link-data')
-const createDTO = require('../lib/dto/comm-link-api-dto')
-const createEmbed = require('../lib/embed/comm-links-embed')
-const log = require('../lib/console-logger')
-const { database } = require('../lib/db')
+const requestData = require('../lib/request/request-comm-link-data');
+const createDTO = require('../lib/dto/comm-link-api-dto');
+const createEmbed = require('../lib/embed/comm-links-embed');
+const log = require('../lib/console-logger');
+const { database } = require('../lib/db');
 
 const execute = async () => {
-  log('Executing Comm-Link Notification Job')
+  log('Executing Comm-Link Notification Job');
 
-  let data
+  let data;
 
   try {
-    data = createDTO(await requestData())
+    data = createDTO(await requestData());
   } catch (e) {
-    log(e, {}, 'error')
+    log(e, {}, 'error');
 
-    return
+    return;
   }
 
   if (typeof data === 'undefined') {
-    return
+    return;
   }
 
   let publishedIds = await database.models.cl_notified.findAll({
     limit: 50,
     order: [
-      ['createdAt', 'DESC']
-    ]
-  })
+      ['createdAt', 'DESC'],
+    ],
+  });
 
   if (publishedIds.length === 0) {
-    await database.models.cl_notified.bulkCreate(data.map(data => {
-      return {
-        cl_id: data.id
-      }
-    }))
+    await database.models.cl_notified.bulkCreate(data.map((data) => ({
+      cl_id: data.id,
+    })));
 
-    return
+    return;
   }
 
-  publishedIds = publishedIds.map(id => id.cl_id)
+  publishedIds = publishedIds.map((id) => id.cl_id);
 
-  data = data.filter(commLink => !publishedIds.includes(commLink.id))
-  const filteredIds = data.map(commLink => commLink.id)
+  data = data.filter((commLink) => !publishedIds.includes(commLink.id));
+  const filteredIds = data.map((commLink) => commLink.id);
 
   if (data.length === 0) {
-    return
+    return;
   }
 
-  await database.models.cl_notified.bulkCreate(filteredIds.map(id => {
-    return {
-      cl_id: id
-    }
-  }))
+  await database.models.cl_notified.bulkCreate(filteredIds.map((id) => ({
+    cl_id: id,
+  })));
 
-  log(`Found ${filteredIds.length} new Comm-Links`, filteredIds)
+  log(`Found ${filteredIds.length} new Comm-Links`, filteredIds);
 
-  const embed = createEmbed(data)
+  const embed = createEmbed(data);
 
   if (embed.fields.length === 0) {
-    return
+    return;
   }
 
-  let channelIds = await database.models.cl_notification_channel.findAll({
-    attributes: ['channel_id']
-  })
-  const errors = []
+  const channelIds = await database.models.cl_notification_channel.findAll({
+    attributes: ['channel_id'],
+  });
+  const errors = [];
 
-  log(`Sending messages to ${channelIds.length} channels`)
+  log(`Sending messages to ${channelIds.length} channels`);
 
-  channelIds.forEach(channelData => {
-    const channel = global.client.channels.cache.get(channelData.channel_id)
+  channelIds.forEach((channelData) => {
+    const channel = global.client.channels.cache.get(channelData.channel_id);
 
     if (typeof channel === 'undefined') {
-      log(`Channel ${channelData.channel_id} does not exist anymore...`)
+      log(`Channel ${channelData.channel_id} does not exist anymore...`);
 
-      return errors.push(channelData.channel_id)
+      return errors.push(channelData.channel_id);
     }
 
-    channel.send(embed)
+    channel.send({ embeds: [embed] })
       .catch(() => {
-        errors.push(channelData.channel_id)
-      })
-  })
+        errors.push(channelData.channel_id);
+      });
+  });
 
   if (errors.length > 0) {
     await database.models.cl_notification_channel.destroy({
       where: {
         channel_id: {
-          [Op.in]: errors
-        }
-      }
-    })
+          [Op.in]: errors,
+        },
+      },
+    });
   }
-}
+};
 
-module.exports = execute
+module.exports = execute;

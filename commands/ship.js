@@ -1,41 +1,33 @@
-const requestData = require('../lib/request/vehicle/request-vehicle')
-const requestLinksData = require('../lib/request/vehicle/request-vehicle-links')
-const createVehicleLinksEmbed = require('../lib/embed/vehicle/vehicle-links-embed')
-const createVehicleLinkDto = require('../lib/dto/vehicle/vehicle-links-api-dto')
-const createVehicleEmbed = require('../lib/embed/vehicle/vehicle-embed')
-const createVehicleDto = require('../lib/dto/vehicle/vehicle-api-dto')
-const isNumeric = require('../lib/is-numeric')
+const { SlashCommandBuilder } = require('@discordjs/builders');
+
+const requestData = require('../lib/request/vehicle/request-vehicle');
+const requestLinkData = require('../lib/request/vehicle/request-vehicle-links');
+const createVehicleLinksEmbed = require('../lib/embed/vehicle/vehicle-links-embed');
+const createVehicleLinkDto = require('../lib/dto/vehicle/vehicle-links-api-dto');
+const createVehicleEmbed = require('../lib/embed/vehicle/vehicle-embed');
+const createVehicleDto = require('../lib/dto/vehicle/vehicle-api-dto');
 
 module.exports = {
-  name: 'schiff',
-  description: 'Erzeugt eine Informationskarte zu einem bestimmten Raumschiff oder Fahrzeug.\nEs können nur solche Schiffe/Fahrzeuge angezeigt werden, welche in der ShipMatrix verfügbar sind.',
-  description_short: `\`$PREFIXschiff\` - Auflistung aller Raumschiffe\n\`$PREFIXschiff [Nr.]\` - Ändern der angezeigten Seite\n\`$PREFIXschiff [Name]\` - Informationen zu einzelnem Raumschiff`,
-  aliases: ['s', 'ship', 'vehicle', 'v', 'ships', 'schiffe', 'vehicles'],
-  usage: 'Schiffsname / Seite',
-  cooldown: 3,
-  examples: [
-    `Ausgabe des Raumschiffs Carrack: \`$PREFIXschiff Carrack\``,
-    `Ausgabe aller Raumschiffe: \`$PREFIXschiff\``,
-    `Ausgabe aller Raumschiffe auf Seite 2: \`$PREFIXschiff 2\``,
-  ],
-  async execute (message, args) {
-    if (!args.length || (typeof args[0] === 'string' && isNumeric(args[0]) && args.length === 1)) {
-      const linkData = await requestLinksData('ships', args)
+  data: new SlashCommandBuilder()
+    .setName('schiff')
+    .setDescription('Erzeugt eine Informationskarte zu einem bestimmten Raumschiff oder Fahrzeug.')
+    .addStringOption((option) => option.setName('name').setDescription('Name des Raumschiffs.'))
+    .addIntegerOption((option) => option.setName('seite').setDescription('Ändern der Seite, bei Ausgabe aller Raumschiffe.')),
+  /**
+     * @param {CommandInteraction} interaction
+     * @returns {Promise<boolean|void>}
+     */
+  async execute(interaction) {
+    await interaction.deferReply({ ephemeral: true });
 
-      return message.channel.send(createVehicleLinksEmbed(createVehicleLinkDto(linkData), 'Raumschiffe'))
+    if (interaction.options.getInteger('seite') || interaction.options.getString('name') === null) {
+      const data = await requestLinkData('ships', interaction.options.getInteger('seite'));
+      return interaction.editReply({ embeds: [createVehicleLinksEmbed(createVehicleLinkDto(data), 'Raumschiffe')] });
     }
 
-    let reply
-    try {
-      reply = await requestData(args.join(' '), 'ships')
-    } catch (e) {
-      if (e.response?.statusText !== 'Not Found') {
-        console.error(e)
-      }
+    const name = interaction.options.getString('name');
+    const reply = await requestData(name, 'ships');
 
-      reply = await requestData(args.join(' '), 'vehicles')
-    }
-
-    message.channel.send(createVehicleEmbed(createVehicleDto(reply)))
+    return interaction.editReply({ embeds: [createVehicleEmbed(createVehicleDto(reply))] });
   },
-}
+};
