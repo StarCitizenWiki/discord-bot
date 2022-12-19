@@ -11,6 +11,7 @@ const statusNotificationSchedule = require('./schedule/status-notification')
 const { database, setup: setupDb } = require('./lib/db')
 const { local, token, comm_link_interval, status_interval } = require('./config.json')
 const {Intents} = require("discord.js");
+const requestData = require("./lib/request/item/request-search-item");
 const client = new Discord.Client({
   intents: [
       Intents.FLAGS.GUILDS,
@@ -122,26 +123,36 @@ client.on('interactionCreate', async interaction => {
 client.on('interactionCreate', async interaction => {
   if (!interaction.isAutocomplete()) return;
 
-  if (interaction.commandName === 'item') {
-    const focusedValue = interaction.options.getFocused();
+  const focusedValue = interaction.options.getFocused();
+  let requestData;
+  let data = [];
 
-    const requestData = require('./lib/request/item/request-search-item');
+  switch (interaction.commandName) {
+    case 'item':
+      requestData = require('./lib/request/item/request-search-item');
+      break;
 
-    let data = [];
+    case 'fahrzeug':
+    case 'schiff':
+      requestData = require('./lib/request/vehicle/request-search-vehicle');
+      break;
 
-    if (focusedValue.length > 0) {
-      data = (await requestData(focusedValue)).result;
-    }
-
-    await interaction.respond(
-        data.map(res => {
-          return {
-            name: res.name,
-            value: res.name,
-          }
-        })
-    );
+    default:
+      return;
   }
+
+  if (focusedValue.length > 0) {
+    data = (await requestData(focusedValue)).result;
+  }
+
+  await interaction.respond(
+      data.map(res => {
+        return {
+          name: res.name,
+          value: res.name,
+        }
+      })
+  );
 });
 
 client.on('guildCreate', guild => {
