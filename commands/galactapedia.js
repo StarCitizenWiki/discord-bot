@@ -8,9 +8,11 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('galactapedia')
     .setDescription('Erzeugt eine Informationskarte zu einem bestimmten Galactapedia Artikel.')
-    .addStringOption((option) => option.setName('suche')
-      .setDescription('Auflistung des ersten Artikels der zum Suchwort passt.')
-      .setRequired(true)),
+    .addStringOption((option) => option
+        .setName('suche')
+        .setAutocomplete(true)
+        .setDescription('Auflistung des ersten Artikels der zum Suchwort passt.')
+        .setRequired(true)),
 
   async execute(interaction) {
     await interaction.deferReply({ ephemeral: false });

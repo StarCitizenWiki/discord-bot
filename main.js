@@ -126,6 +126,8 @@ client.on('interactionCreate', async interaction => {
   const focusedValue = interaction.options.getFocused();
   let requestData;
   let data = [];
+  let key = 'name';
+  let valueKey = null;
 
   switch (interaction.commandName) {
     case 'item':
@@ -135,6 +137,12 @@ client.on('interactionCreate', async interaction => {
     case 'fahrzeug':
     case 'schiff':
       requestData = require('./lib/request/vehicle/request-search-vehicle');
+      break;
+
+    case 'galactapedia':
+      key = 'title';
+      valueKey = 'id';
+      requestData = require('./lib/request/galactapedia/request-search-galactapedia');
       break;
 
     default:
@@ -148,8 +156,8 @@ client.on('interactionCreate', async interaction => {
   await interaction.respond(
       data.map(res => {
         return {
-          name: res.name,
-          value: res.name,
+          name: res[key],
+          value: res[valueKey ?? key],
         }
       })
   );
