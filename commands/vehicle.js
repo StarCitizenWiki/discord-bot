@@ -22,7 +22,7 @@ module.exports = {
     await interaction.deferReply({ ephemeral: false });
 
     const name = interaction.options.getString('name');
-    const reply = await requestData(name, 'ships');
+    const reply = await requestData(name, 'v2/vehicles');
 
     return  interaction.editReply({ embeds: [createVehicleEmbed(createVehicleDto(reply))] });
   },

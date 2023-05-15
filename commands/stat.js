@@ -21,7 +21,7 @@ module.exports = {
   async execute(interaction) {
     await interaction.deferReply({ ephemeral: false });
 
-    const apiData = await axios.get('stats/latest')
+    const apiData = await axios.get('v2/stats/latest')
       .catch((error) => error);
 
     if (apiData.status !== 200) {

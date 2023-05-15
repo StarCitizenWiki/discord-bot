@@ -24,12 +24,12 @@ module.exports = {
     if (name === null) {
       const data = await requestData('');
 
-      return interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data.data))] });
+      return interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data))] });
     }
 
     const result = await requestData(name);
     const image = await requestImage(name);
 
-    return interaction.editReply({ embeds: [createEmbed(createDTO(result.data, image))] });
+    return interaction.editReply({ embeds: [createEmbed(createDTO(result, image))] });
   },
 };
