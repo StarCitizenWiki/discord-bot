@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 const requestImage = require('../lib/request/request-image');
 const createEmbed = require('../lib/embed/starsystem/starsystem-embed');
@@ -15,7 +15,7 @@ module.exports = {
     .addStringOption((option) => option.setName('name').setDescription('Name des Sternensystems, z.B. Stanton.'))
     .addIntegerOption((option) => option.setName('seite').setDescription('Ändern der Seite, bei Ausgabe aller Sternensysteme.')),
   /**
-   * @param {CommandInteraction} interaction
+   * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}
    */
   async execute(interaction) {

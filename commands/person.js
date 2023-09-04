@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 const requestData = require('../lib/request/person/request-person-semantic-data');
 const requestLinkData = require('../lib/request/person/request-person-links');
@@ -15,7 +15,7 @@ module.exports = {
     .addStringOption((option) => option.setName('name').setDescription('Ausgabe der Informationen einer Person.'))
     .addIntegerOption((option) => option.setName('seite').setDescription('Ändern der Seite, bei Ausgabe aller Personen.')),
   /**
-   * @param {CommandInteraction} interaction
+   * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}
    */
   async execute(interaction) {

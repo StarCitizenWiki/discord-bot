@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 const requestData = require('../lib/request/nation/request-nation-links');
 const createLinkEmbed = require('../lib/embed/nation/nation-links-embed');
@@ -13,7 +13,7 @@ module.exports = {
   //         .setDescription('Name des Volks')
   //         .setRequired(true)),
   /**
-   * @param {CommandInteraction} interaction
+   * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}
    */
   async execute(interaction) {

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 const { database } = require('../lib/db');
 
@@ -14,7 +14,7 @@ module.exports = {
     .addBooleanOption((option) => option.setName('add').setDescription('Hinzufügen des aktuellen Kanals zu Benachrichtigungen.'))
     .addBooleanOption((option) => option.setName('remove').setDescription('Entfernt den aktuellen Kanal von Benachrichtigungen.')),
   /**
-   * @param {CommandInteraction} interaction
+   * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}
    */
   async execute(interaction) {
@@ -23,7 +23,6 @@ module.exports = {
     const latest = interaction.options.getBoolean('latest');
     const add = interaction.options.getBoolean('add');
     const remove = interaction.options.getBoolean('remove');
-
 
     if (add === null && remove === null && latest === null) {
       const data = await database.models.rsi_system_status.findOne({
@@ -51,6 +50,6 @@ module.exports = {
       return interaction.editReply({ embeds: [createIncidentEmbed(data)] });
     }
 
-    return interaction.editReply({content: 'Option muss auf "true" gesetzt werden.'})
+    return interaction.editReply({ content: 'Option muss auf "true" gesetzt werden.' });
   },
 };

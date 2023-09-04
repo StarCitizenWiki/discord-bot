@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 const requestData = require('../lib/request/vehicle/request-vehicle');
 const createVehicleEmbed = require('../lib/embed/vehicle/vehicle-embed');
@@ -9,13 +9,12 @@ module.exports = {
     .setName('schiff')
     .setDescription('Erzeugt eine Informationskarte zu einem bestimmten Raumschiff oder Fahrzeug.')
     .addStringOption((option) => option
-        .setName('name')
-        .setDescription('Name des Raumschiffs.')
-        .setAutocomplete(true)
-        .setRequired(true)
-    ),
+      .setName('name')
+      .setDescription('Name des Raumschiffs.')
+      .setAutocomplete(true)
+      .setRequired(true)),
   /**
-     * @param {CommandInteraction} interaction
+     * @param {ChatInputCommandInteraction} interaction
      * @returns {Promise<boolean|void>}
      */
   async execute(interaction) {

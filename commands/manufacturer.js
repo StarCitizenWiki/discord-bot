@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 const requestData = require('../lib/request/manufacturer/request-manufacturer');
 const requestImage = require('../lib/request/request-image');
@@ -13,7 +13,7 @@ module.exports = {
     .setDescription('Erzeugt eine Informationskarte zu einem bestimmten Hersteller.')
     .addStringOption((option) => option.setName('name').setDescription('Name des Herstellers.')),
   /**
-   * @param {CommandInteraction} interaction
+   * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}
    */
   async execute(interaction) {

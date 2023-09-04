@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, ChatInputCommandInteraction } = require('discord.js');
 
 const requestData = require('../lib/request/request-comm-link-data');
 const createDTO = require('../lib/dto/comm-link-api-dto');
@@ -14,7 +14,7 @@ module.exports = {
 
   /**
    *
-   * @param {CommandInteraction} interaction
+   * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}
    */
   async execute(interaction) {

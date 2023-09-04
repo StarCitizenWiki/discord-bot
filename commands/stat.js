@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 const Discord = require('discord.js');
 const axios = require('../lib/request/request');
@@ -15,7 +15,7 @@ module.exports = {
     .setName('stats')
     .setDescription('Erzeugt eine Informationskarte zu den aktuellen Spendenstatistiken und der Anzahl Citizens.'),
   /**
-   * @param {CommandInteraction} interaction
+   * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}
    */
   async execute(interaction) {
@@ -30,15 +30,16 @@ module.exports = {
 
     const result = apiData.data.data;
 
-    const reply = new Discord.MessageEmbed({
+    const reply = new Discord.EmbedBuilder({
       timestamp: result.timestamp,
       title: 'Star Citizen Statistiken',
       footer,
     });
 
-    reply
-      .addField('Spenden', formatFunds(result.funds), true)
-      .addField('Fleet', result.fleet.toLocaleString('de-DE'), true);
+    reply.addFields([
+      { name: 'Spenden', value: formatFunds(result.funds), inline: true },
+      { name: 'Fleet', value: result.fleet.toLocaleString('de-DE'), inline: true },
+    ]);
 
     await interaction.editReply({ embeds: [reply] });
   },
