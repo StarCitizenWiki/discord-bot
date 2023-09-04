@@ -16,15 +16,15 @@ const createEmbed = (data) => {
   });
 
   reply.addFields([
-      {
-        name: 'Betroffene Systeme',
-        value: JSON.parse(data.affected_systems).map((system) => getSystemName(system)).join(', '),
-        inline: true
-      },
-      {name: 'Behoben', value: data.resolved === true ? 'Ja' : 'Nein', inline: true},
-      {name: 'Schweregrad', value: `${getStatusIcon(data.severity)} | ${getStatusName(data.severity)}`, inline: true},
-      {name: 'Seit', value: data.incident_date.toLocaleString('de-DE'), inline: true},
-      {name: 'Aktualisierung', value: data.updated_date.toLocaleString('de-DE'), inline: true},
+    {
+      name: 'Betroffene Systeme',
+      value: JSON.parse(data.affected_systems).map((system) => getSystemName(system)).join(', '),
+      inline: true,
+    },
+    { name: 'Behoben', value: data.resolved === true ? 'Ja' : 'Nein', inline: true },
+    { name: 'Schweregrad', value: `${getStatusIcon(data.severity)} | ${getStatusName(data.severity)}`, inline: true },
+    { name: 'Seit', value: data.incident_date.toLocaleString('de-DE'), inline: true },
+    { name: 'Aktualisierung', value: data.updated_date.toLocaleString('de-DE'), inline: true },
   ]);
 
   if (data.resolved === true) {

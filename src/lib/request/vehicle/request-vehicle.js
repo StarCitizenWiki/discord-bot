@@ -82,7 +82,7 @@ const requestData = async (name, uri) => {
   let apiData = await axios.post('v2/vehicles/search?limit=1', {
     query: name.toLowerCase(),
   })
-      .catch((error) => error);
+    .catch((error) => error);
 
   if (apiData.status !== 200) {
     throw apiData;
@@ -90,8 +90,8 @@ const requestData = async (name, uri) => {
 
   let result = apiData.data.data[0];
 
-  apiData = await axios.get('v2/vehicles/' + result.uuid)
-      .catch((error) => error);
+  apiData = await axios.get(`v2/vehicles/${result.uuid}`)
+    .catch((error) => error);
 
   result = apiData.data.data;
 

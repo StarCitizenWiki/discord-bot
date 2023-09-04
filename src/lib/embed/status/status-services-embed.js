@@ -13,10 +13,10 @@ const createEmbed = (data) => {
   });
 
   reply.addFields([
-      {name: getSystemName('platform'), value: `${getStatusIcon(data.platform)} | ${getStatusName(data.platform)}`},
-      {name: getSystemName('pu'), value: `${getStatusIcon(data.pu)} | ${getStatusName(data.pu)}`},
-      {name: getSystemName('ea'), value: `${getStatusIcon(data.ea)} | ${getStatusName(data.ea)}`},
-  ])
+    { name: getSystemName('platform'), value: `${getStatusIcon(data.platform)} | ${getStatusName(data.platform)}` },
+    { name: getSystemName('pu'), value: `${getStatusIcon(data.pu)} | ${getStatusName(data.pu)}` },
+    { name: getSystemName('ea'), value: `${getStatusIcon(data.ea)} | ${getStatusName(data.ea)}` },
+  ]);
 
   return reply;
 };

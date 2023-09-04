@@ -8,8 +8,8 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY --chown=node:node . .
+COPY --chown=node:node src .
 
 USER node
 
-CMD [ "node", "main.js" ]
+CMD [ "node", "src/main.js" ]

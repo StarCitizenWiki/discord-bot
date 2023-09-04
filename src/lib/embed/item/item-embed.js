@@ -29,8 +29,8 @@ const createEmbed = (data) => {
     fields.push({
       name: shop.name_raw,
       value: `${Math.round(shop.items[0].price_calculated).toString()} aUEC (${shop.items[0].buyable === true ? 'Kauf' : shop.items[0].sellable === true ? 'Verkauf' : ''})`,
-      inline: true
-    })
+      inline: true,
+    });
   }
 
   if (fields.length > 0) {

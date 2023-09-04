@@ -69,20 +69,20 @@ const createEmbed = (data) => {
   });
 
   reply.addFields([
-      {name: 'Länge', value: `${data.length} m`, inline: true},
-      {name: 'Breite', value: `${data.beam} m`, inline: true},
-      {name: 'Höhe', value: `${data.height} m`, inline: true},
-      {name: 'Besatzung', value: formatCrew(data), inline: true},
-      {name: 'Kampf Geschw.', value: formatSpeed(data.scm), inline: true},
-      {name: 'Max. Geschw.', value: formatSpeed(data.afterburner), inline: true},
-      {name: 'Gewicht', value: formatWeight(data.mass), inline: true},
-      {name: 'Frachtkapazität', value: formatCargo(data.cargo), inline: true},
-      {name: 'Inventar', value: formatCargo(data.vehicle_inventory), inline: true},
-      {name: 'Pers. Inventar', value: formatCargo(data.personal_inventory), inline: true},
-      {name: 'Aktueller Preis', value: formatPrice(data.price), inline: true},
+    { name: 'Länge', value: `${data.length} m`, inline: true },
+    { name: 'Breite', value: `${data.beam} m`, inline: true },
+    { name: 'Höhe', value: `${data.height} m`, inline: true },
+    { name: 'Besatzung', value: formatCrew(data), inline: true },
+    { name: 'Kampf Geschw.', value: formatSpeed(data.scm), inline: true },
+    { name: 'Max. Geschw.', value: formatSpeed(data.afterburner), inline: true },
+    { name: 'Gewicht', value: formatWeight(data.mass), inline: true },
+    { name: 'Frachtkapazität', value: formatCargo(data.cargo), inline: true },
+    { name: 'Inventar', value: formatCargo(data.vehicle_inventory), inline: true },
+    { name: 'Pers. Inventar', value: formatCargo(data.personal_inventory), inline: true },
+    { name: 'Aktueller Preis', value: formatPrice(data.price), inline: true },
   ]);
 
-  let {foci} = data;
+  let { foci } = data;
   if (data.foci.length > 0) {
     foci = foci.join(' und ');
   } else {
@@ -90,15 +90,15 @@ const createEmbed = (data) => {
   }
 
   reply.addFields([
-      {
-        name: 'Hersteller',
-        value: `[${data.manufacturer}](${wiki_url}/${encodeURIComponent(data.manufacturer.replace(/\s/g, '_'))})`,
-        inline: true
-      },
-      {name: 'Fokus', value: foci, inline: true},
-      {name: 'Größe', value: (`${data.size}`).length === 0 ? '-' : data.size, inline: true},
-      {name: 'Status', value: data.status.length === 0 ? '-' : data.status, inline: true},
-  ])
+    {
+      name: 'Hersteller',
+      value: `[${data.manufacturer}](${wiki_url}/${encodeURIComponent(data.manufacturer.replace(/\s/g, '_'))})`,
+      inline: true,
+    },
+    { name: 'Fokus', value: foci, inline: true },
+    { name: 'Größe', value: (`${data.size}`).length === 0 ? '-' : data.size, inline: true },
+    { name: 'Status', value: data.status.length === 0 ? '-' : data.status, inline: true },
+  ]);
 
   const links = [
     `[Wiki](${wiki_url}/${encodeURIComponent(data.name.replace(/\s/g, '_'))})`,
@@ -124,7 +124,7 @@ const createEmbed = (data) => {
     }
   });
 
-  reply.addFields([{name: 'Links', value: links.join(' · ')}]);
+  reply.addFields([{ name: 'Links', value: links.join(' · ') }]);
 
   if (data.image !== null) {
     reply.setImage(data.image);

@@ -22,11 +22,11 @@ const createEmbed = (data, image) => {
   });
 
   reply.addFields([
-      {name: 'Geburtsdatum', value: formatDate(data.birth), inline: true},
-      {name: 'Todesdatum', value: formatDate(data.death), inline: true},
-      {name: 'Geschlecht', value: data.gender, inline: true},
-      {name: 'Volk', value: data.nation, inline: true}
-  ])
+    { name: 'Geburtsdatum', value: formatDate(data.birth), inline: true },
+    { name: 'Todesdatum', value: formatDate(data.death), inline: true },
+    { name: 'Geschlecht', value: data.gender, inline: true },
+    { name: 'Volk', value: data.nation, inline: true },
+  ]);
 
   const links = [
     `[Wiki](https:${data.url})`,
@@ -39,8 +39,8 @@ const createEmbed = (data, image) => {
   });
 
   reply.addFields([
-      {name: 'Links', value: links.join(' · ')},
-      {name: 'Familie', value: data.relatives.length === 0 ? '-' : data.relatives.join(', ')}
+    { name: 'Links', value: links.join(' · ') },
+    { name: 'Familie', value: data.relatives.length === 0 ? '-' : data.relatives.join(', ') },
   ]);
 
   if (image !== null) {

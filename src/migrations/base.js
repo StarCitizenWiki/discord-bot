@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 
 module.exports = {
   migrations: [
@@ -10,7 +10,7 @@ module.exports = {
           type: Sequelize.STRING,
           unique: true,
         },
-      }
+      },
     },
     {
       name: 'cl_notified',
@@ -19,7 +19,7 @@ module.exports = {
           type: Sequelize.INTEGER,
           unique: true,
         },
-      }
+      },
     },
     {
       name: 'rsi_system_status',
@@ -27,7 +27,7 @@ module.exports = {
         platform: Sequelize.STRING,
         pu: Sequelize.STRING,
         ea: Sequelize.STRING,
-      }
+      },
     },
     {
       name: 'rsi_system_incidents',
@@ -35,7 +35,7 @@ module.exports = {
         incident_id: {
           type: Sequelize.STRING,
           unique: true,
-          primaryKey: true
+          primaryKey: true,
         },
         title: Sequelize.STRING,
         incident_date: Sequelize.DATE,
@@ -43,8 +43,8 @@ module.exports = {
         severity: Sequelize.STRING,
         affected_systems: Sequelize.STRING,
         resolved: Sequelize.BOOLEAN,
-        content: Sequelize.TEXT
-      }
+        content: Sequelize.TEXT,
+      },
     },
     {
       name: 'rsi_system_incidents_published',
@@ -53,7 +53,7 @@ module.exports = {
           type: Sequelize.STRING,
           unique: true,
         },
-      }
+      },
     },
     {
       name: 'incident_notification_channel',
@@ -63,7 +63,7 @@ module.exports = {
           type: Sequelize.STRING,
           unique: true,
         },
-      }
+      },
     },
-  ]
-}
+  ],
+};

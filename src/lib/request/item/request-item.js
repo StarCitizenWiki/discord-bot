@@ -1,5 +1,5 @@
 const axios = require('../request');
-const {locale} = require('../../../config.json');
+const { locale } = require('../../../config.json');
 const requestImage = require('../request-image');
 
 const requestData = async (name) => {
