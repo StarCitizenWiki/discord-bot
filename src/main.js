@@ -10,7 +10,7 @@ const statusNotificationSchedule = require('./schedule/status-notification');
 const { database, setup: setupDb } = require('./lib/db');
 const {
   local, token, comm_link_interval, status_interval,
-} = require('./config.json');
+} = require('../config.json');
 const requestData = require('./lib/request/item/request-search-item');
 
 const client = new Discord.Client({

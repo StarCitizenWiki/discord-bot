@@ -1,6 +1,11 @@
 const axios = require('./request');
 
-const requestData = async () => {
+/**
+ *
+ * @param {ChatInputCommandInteraction} interaction
+ * @returns {Promise<*>}
+ */
+const requestData = async (interaction) => {
   const apiData = await axios.get('v2/comm-links', {
     params: {
       limit: 25,

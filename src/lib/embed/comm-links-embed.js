@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { footer, wiki_url } = require('../../config.json');
+const { footer, wiki_url } = require('../../../config.json');
 
 const createEmbed = (data) => {
   const title = data.length === 1 ? 'Der neueste Comm-Link' : 'Die neuesten Comm-Links';

@@ -1,5 +1,5 @@
 const axios = require('../request');
-const { locale } = require('../../../config.json');
+const { locale } = require('../../../../config.json');
 
 const requestData = async (args) => {
   const result = await axios.get(`v2/galactapedia/${encodeURIComponent(args.toLowerCase())}`, {

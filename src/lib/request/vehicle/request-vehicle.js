@@ -3,7 +3,7 @@ const requestImage = require('../request-image');
 const requestSemanticData = require('./request-vehicle-semantic-data');
 
 /**
- * Mappings that try to catch common miss spellings or names
+ * Mappings that try to catch common misspellings or names
  * Maps API name to an array of possible catches
  */
 const nameMappings = {
@@ -66,7 +66,7 @@ const nameMappings = {
   ],
 };
 
-const requestData = async (name, uri) => {
+const requestData = async (name) => {
   name = name.replace('[', '').replace(']', '');
 
   Object.entries(nameMappings).every((mapping) => {

@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { api_url, api_token, locale } = require('../../config.json');
+const { api_url, locale } = require('../../../config.json');
 
 const instance = axios.create({
   baseURL: `${api_url}/api`,

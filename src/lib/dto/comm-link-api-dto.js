@@ -1,5 +1,5 @@
 const safeValueAccess = require('../safe-value-access');
-const { wiki_url } = require('../../config.json');
+const { wiki_url } = require('../../../config.json');
 
 const createDTO = (data) => {
   const dto = [];

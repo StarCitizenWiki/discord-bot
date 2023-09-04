@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { wiki_url } = require('../../config.json');
+const { wiki_url } = require('../../../config.json');
 
 const instance = axios.create({
   baseURL: wiki_url,

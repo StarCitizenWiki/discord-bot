@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 const { migrations } = require('../migrations/base');
-const { db } = require('../config.json');
+const { db } = require('../../config.json');
 
 const database = new Sequelize('database', '', '', {
   host: 'localhost',
