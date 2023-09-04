@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 
 const Discord = require('discord.js');
 const axios = require('../lib/request/request');
-const { footer } = require('../config.json');
+const { footer } = require('../../config.json');
 
 const formatFunds = (funds) => {
   const intVal = parseInt(funds.substring(0, funds.length - 3), 10);
@@ -13,7 +13,15 @@ const formatFunds = (funds) => {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('stats')
-    .setDescription('Erzeugt eine Informationskarte zu den aktuellen Spendenstatistiken und der Anzahl Citizens.'),
+    .setNameLocalizations({
+      'en-US': 'stats',
+      fr: 'statistiques',
+    })
+    .setDescription('Erzeugt eine Informationskarte zu den aktuellen Spendenstatistiken und der Anzahl Citizens.')
+    .setDescriptionLocalizations({
+      'en-US': 'Generates an information card on the current donation statistics and the number of Citizens.',
+      fr: 'Crée une carte d\'information sur les statistiques actuelles des dons et le nombre de Citoyens.',
+    }),
   /**
    * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}

@@ -8,15 +8,27 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('galactapedia')
     .setDescription('Erzeugt eine Informationskarte zu einem bestimmten Galactapedia Artikel.')
+    .setDescriptionLocalizations({
+      'en-US': 'Creates an information card about a specific Galactapedia article.',
+      fr: 'Crée une fiche d\'information sur un article spécifique de Galactapedia.',
+    })
     .addStringOption((option) => option
-      .setName('suche')
+      .setName('search')
+      .setNameLocalizations({
+        de: 'suche',
+        fr: 'chercher',
+      })
       .setAutocomplete(true)
       .setDescription('Auflistung des ersten Artikels der zum Suchwort passt.')
+      .setDescriptionLocalizations({
+        'en-US': 'Listing of the first article that matches the search term.',
+        fr: 'Liste du premier article correspondant au mot recherché.',
+      })
       .setRequired(true)),
 
   async execute(interaction) {
     await interaction.deferReply({ ephemeral: false });
-    const result = await requestData(interaction.options.getString('suche'));
+    const result = await requestData(interaction.options.getString('search'));
 
     if (result === null) {
       throw {

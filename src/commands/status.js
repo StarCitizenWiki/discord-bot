@@ -9,10 +9,48 @@ const manageChannelNotification = require('../lib/manage-channel-notification');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('status')
+    .setNameLocalizations({
+      'en-US': 'status',
+      fr: 'état',
+    })
     .setDescription('Erzeugt eine Informationskarte zu dem aktuellen RSI Systemstatus.')
-    .addBooleanOption((option) => option.setName('latest').setDescription('Anzeige des letzten Vorfalls.'))
-    .addBooleanOption((option) => option.setName('add').setDescription('Hinzufügen des aktuellen Kanals zu Benachrichtigungen.'))
-    .addBooleanOption((option) => option.setName('remove').setDescription('Entfernt den aktuellen Kanal von Benachrichtigungen.')),
+    .setDescriptionLocalizations({
+      'en-US': 'Generates an information card about the current RSI system status.',
+      fr: 'Génère une carte d\'information sur l\'état actuel du système RSI.',
+    })
+    .addBooleanOption((option) => option.setName('latest')
+      .setNameLocalizations({
+        'en-US': 'latest',
+        fr: 'le plus récent',
+      })
+      .setDescription('Anzeige des letzten Vorfalls.')
+      .setDescriptionLocalizations({
+        'en-US': 'Information about the most recent incident.',
+        fr: 'Affichage du dernier incident.',
+      })
+    )
+    .addBooleanOption((option) => option.setName('add')
+      .setNameLocalizations({
+        'en-US': 'add',
+        fr: 'ajouter',
+      })
+      .setDescription('Hinzufügen des aktuellen Kanals zu Benachrichtigungen.')
+      .setDescriptionLocalizations({
+        'en-US': 'Setup the current channel to receive notifications.',
+        fr: 'Ajouter le canal actuel aux notifications.',
+      })
+    )
+    .addBooleanOption((option) => option.setName('remove')
+      .setNameLocalizations({
+        'en-US': 'remove',
+        fr: 'supprimer',
+      })
+      .setDescription('Entfernt den aktuellen Kanal von Benachrichtigungen.')
+      .setDescriptionLocalizations({
+        'en-US': 'Remove the current channel from notifications.',
+        fr: 'Supprimer le canal actuel des notifications.',
+      })
+    ),
   /**
    * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}

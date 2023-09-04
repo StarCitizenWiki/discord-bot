@@ -11,9 +11,37 @@ const createSystemLinkDto = require('../lib/dto/starsystem/starsystem-links-api-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('system')
+    .setNameLocalizations({
+      'en-US': 'system',
+      fr: 'système',
+    })
     .setDescription('Erzeugt eine Informationskarte zu Sternensystemen.')
-    .addStringOption((option) => option.setName('name').setDescription('Name des Sternensystems, z.B. Stanton.'))
-    .addIntegerOption((option) => option.setName('seite').setDescription('Ändern der Seite, bei Ausgabe aller Sternensysteme.')),
+    .setDescriptionLocalizations({
+      'en-US': 'Generates an information card about star systems.',
+      fr: 'Crée une carte d\'information sur les systèmes stellaires.',
+    })
+    .addStringOption((option) => option.setName('name')
+      .setNameLocalizations({
+        'en-US': 'name',
+        fr: 'nom',
+      })
+      .setDescription('Name des Sternensystems, z.B. Stanton.')
+      .setDescriptionLocalizations({
+        'en-US': 'Name of the star system, e.g. Stanton.',
+        fr: 'Nom du système stellaire, par exemple Stanton.',
+      })
+    )
+    .addIntegerOption((option) => option.setName('seite')
+      .setNameLocalizations({
+        'en-US': 'page',
+        fr: 'page',
+      })
+      .setDescription('Ändern der Seite, bei Ausgabe aller Sternensysteme.')
+      .setDescriptionLocalizations({
+        'en-US': 'Change the page, when outputting all star systems.',
+        fr: 'Modifier la page, lors de la sortie de tous les systèmes stellaires.',
+      })
+    ),
   /**
    * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}

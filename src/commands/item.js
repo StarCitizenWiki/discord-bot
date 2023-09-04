@@ -8,9 +8,20 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('item')
     .setDescription('Informationen zu allen Items aus Star Citizen.')
+    .setDescriptionLocalizations({
+      'en-US': 'Information about all items in Star Citizen.',
+      fr: 'Informations sur tous les objets de Star Citizen.',
+    })
     .addStringOption((option) => option
       .setName('name')
+      .setNameLocalizations({
+        fr: 'nom',
+      })
       .setDescription('Name des Items.')
+      .setDescriptionLocalizations({
+        'en-US': 'Name of the item.',
+        fr: 'Nom de l\'item.',
+      })
       .setAutocomplete(true)
       .setRequired(true)),
   /**
