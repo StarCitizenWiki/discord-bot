@@ -7,9 +7,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "node src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "node_modules/.bin/"
+    "lint": "eslint --fix src"
   },
   "keywords": [],
   "author": "",
