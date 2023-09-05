@@ -28,7 +28,7 @@ module.exports = {
 
   async execute(interaction) {
     await interaction.deferReply({ ephemeral: false });
-    const result = await requestData(interaction.options.getString('search'));
+    const result = await requestData(interaction.options.getString('search'), interaction);
 
     if (result === null) {
       throw {

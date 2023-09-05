@@ -134,6 +134,8 @@ client.on('interactionCreate', async (interaction) => {
       requestData = require('./lib/request/item/request-search-item');
       break;
 
+    case 'vehicle':
+    case 'ship':
     case 'fahrzeug':
     case 'schiff':
       requestData = require('./lib/request/vehicle/request-search-vehicle');

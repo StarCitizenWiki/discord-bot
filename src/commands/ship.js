@@ -36,7 +36,7 @@ module.exports = {
     await interaction.deferReply({ ephemeral: false });
 
     const name = interaction.options.getString('name');
-    const reply = await requestData(name);
+    const reply = await requestData(name, interaction);
 
     return interaction.editReply({ embeds: [createVehicleEmbed(createVehicleDto(reply), interaction)] });
   },

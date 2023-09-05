@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const { footer, wiki_url } = require('../../../../config.json');
-const { footer, wiki_url } = require('../../../config.json');
 const { translate, getLocale } = require('../../translate');
 
 const formatCrew = (data) => {
@@ -49,7 +48,7 @@ const formatWeight = (weight, interaction) => {
   return `${weight.toLocaleString(getLocale(interaction))} Kg`;
 };
 
-const formatCargo = (cargo) => {
+const formatCargo = (cargo, interaction) => {
   if (cargo === 0) {
     return '-';
   }

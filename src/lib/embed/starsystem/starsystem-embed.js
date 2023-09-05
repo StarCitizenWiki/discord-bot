@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const { footer, wiki_url } = require('../../../config.json');
 const { translate } = require('../../translate');
 const { footer, wiki_url } = require('../../../../config.json');
 

@@ -35,6 +35,22 @@ const getLocale = (interaction) => {
 
 /**
  * @param {ChatInputCommandInteraction} interaction
+ * @return string
+ */
+const getApiLocale = (interaction) => {
+  const locale = getLocale(interaction);
+
+  switch (locale) {
+    case 'en':
+      return 'en_EN';
+
+    default:
+      return 'de_DE';
+  }
+};
+
+/**
+ * @param {ChatInputCommandInteraction} interaction
  * @param {string} key
  * @return string
  */
@@ -51,4 +67,5 @@ const translate = (interaction, key) => {
 module.exports = {
   translate,
   getLocale,
+  getApiLocale,
 };

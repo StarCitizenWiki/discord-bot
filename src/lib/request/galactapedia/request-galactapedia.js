@@ -1,11 +1,11 @@
 const axios = require('../request');
-const { locale } = require('../../../../config.json');
+const { getApiLocale } = require('../../translate');
 
-const requestData = async (args) => {
+const requestData = async (args, interaction) => {
   const result = await axios.get(`v2/galactapedia/${encodeURIComponent(args.toLowerCase())}`, {
     params: {
       include: 'related_articles',
-      locale,
+      locale: getApiLocale(interaction),
     },
   })
     .catch(() => null);

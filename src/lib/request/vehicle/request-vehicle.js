@@ -1,6 +1,7 @@
 const axios = require('../request');
 const requestImage = require('../request-image');
 const requestSemanticData = require('./request-vehicle-semantic-data');
+const { getApiLocale } = require('../../translate');
 
 /**
  * Mappings that try to catch common misspellings or names
@@ -66,7 +67,12 @@ const nameMappings = {
   ],
 };
 
-const requestData = async (name) => {
+/**
+ * @param name
+ * @param {ChatInputCommandInteraction} interaction
+ * @returns {Promise<{result: *, image: *, semantic: *}>}
+ */
+const requestData = async (name, interaction) => {
   name = name.replace('[', '').replace(']', '');
 
   Object.entries(nameMappings).every((mapping) => {
@@ -79,8 +85,13 @@ const requestData = async (name) => {
     return true;
   });
 
-  let apiData = await axios.post('v2/vehicles/search?limit=1', {
+  let apiData = await axios.post('v2/vehicles/search', {
     query: name.toLowerCase(),
+  }, {
+    params: {
+      locale: getApiLocale(interaction),
+      limit: 1,
+    },
   })
     .catch((error) => error);
 

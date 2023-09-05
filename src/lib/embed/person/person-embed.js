@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { footer } = require('../../../config.json');
+const { footer } = require('../../../../config.json');
 const { translate } = require('../../translate');
 
 const formatDate = (date) => {

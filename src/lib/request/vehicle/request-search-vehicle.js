@@ -5,7 +5,7 @@ const requestData = async (name) => {
     query: name,
   })
     .catch((error) => error);
-
+  console.log(apiData);
   if (apiData.status !== 200) {
     return {
       result: [],

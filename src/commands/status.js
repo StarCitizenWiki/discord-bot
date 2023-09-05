@@ -21,7 +21,7 @@ module.exports = {
     .addBooleanOption((option) => option.setName('latest')
       .setNameLocalizations({
         'en-US': 'latest',
-        fr: 'le plus récent',
+        fr: 'recent',
       })
       .setDescription('Anzeige des letzten Vorfalls.')
       .setDescriptionLocalizations({
