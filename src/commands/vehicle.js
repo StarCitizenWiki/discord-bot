@@ -7,10 +7,25 @@ const createVehicleDto = require('../lib/dto/vehicle/vehicle-api-dto');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('fahrzeug')
-    .setDescription('Erzeugt eine Informationskarte zu einem bestimmten Fahrzeug oder Raumschiff.')
+    .setNameLocalizations({
+      'en-US': 'vehicle',
+      fr: 'véhicule',
+    })
+    .setDescription('Generates an information card about a specific spacecraft or vehicle.')
+    .setDescriptionLocalizations({
+      de: 'Erzeugt eine Informationskarte zu einem bestimmten Raumschiff oder Fahrzeug.',
+      fr: 'Crée une carte d\'information sur un vaisseau spatial ou un véhicule spécifique.',
+    })
     .addStringOption((option) => option
       .setName('name')
-      .setDescription('Name des Fahrzeugs.')
+      .setNameLocalizations({
+        fr: 'nom',
+      })
+      .setDescription('Vehicle name')
+      .setDescriptionLocalizations({
+        de: 'Fahrzeug name',
+        fr: 'Nom du véhicule',
+      })
       .setAutocomplete(true)
       .setRequired(true)),
   /**
@@ -21,8 +36,8 @@ module.exports = {
     await interaction.deferReply({ ephemeral: false });
 
     const name = interaction.options.getString('name');
-    const reply = await requestData(name, 'v2/vehicles');
+    const reply = await requestData(name);
 
-    return interaction.editReply({ embeds: [createVehicleEmbed(createVehicleDto(reply))] });
+    return interaction.editReply({ embeds: [createVehicleEmbed(createVehicleDto(reply), interaction)] });
   },
 };

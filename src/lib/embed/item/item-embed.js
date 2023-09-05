@@ -1,7 +1,13 @@
 const Discord = require('discord.js');
-const { footer, wiki_url } = require('../../../../config.json');
+const { footer, wiki_url } = require('../../../config.json');
+const { translate } = require('../../translate');
 
-const createEmbed = (data) => {
+/**
+ * @param {Object} data
+ * @param {ChatInputCommandInteraction} interaction
+ * @return {Discord.EmbedBuilder}
+ */
+const createEmbed = (data, interaction) => {
   const reply = new Discord.EmbedBuilder({
     timestamp: data.timestamp,
     title: data.name,
@@ -28,7 +34,7 @@ const createEmbed = (data) => {
   for (const shop of shopData) {
     fields.push({
       name: shop.name_raw,
-      value: `${Math.round(shop.items[0].price_calculated).toString()} aUEC (${shop.items[0].buyable === true ? 'Kauf' : shop.items[0].sellable === true ? 'Verkauf' : ''})`,
+      value: `${Math.round(shop.items[0].price_calculated).toString()} aUEC (${shop.items[0].buyable === true ? translate(interaction, 'buy') : shop.items[0].sellable === true ? translate(interaction, 'sell') : ''})`,
       inline: true,
     });
   }
@@ -39,9 +45,9 @@ const createEmbed = (data) => {
 
   if (shopData.length === 0) {
     if (reply.description === '-') {
-      reply.setDescription('Keine Shops gefunden');
+      reply.setDescription(translate(interaction, 'no_shops_found'));
     } else {
-      reply.setDescription(`${reply.description}\n\nKeine Shops gefunden`);
+      reply.setDescription(`${reply.description}\n\n${translate(interaction, 'no_shops_found')}`);
     }
   }
 

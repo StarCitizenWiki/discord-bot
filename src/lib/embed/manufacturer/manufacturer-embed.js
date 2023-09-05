@@ -1,7 +1,13 @@
 const Discord = require('discord.js');
-const { footer, wiki_url } = require('../../../../config.json');
+const { footer, wiki_url } = require('../../../config.json');
+const { translate } = require('../../translate');
 
-const createEmbed = (data) => {
+/**
+ * @param {Object} data
+ * @param {ChatInputCommandInteraction} interaction
+ * @return {Discord.EmbedBuilder}
+ */
+const createEmbed = (data, interaction) => {
   const reply = new Discord.EmbedBuilder({
     timestamp: data.timestamp,
     title: `${data.name} - ${data.code}`,
@@ -27,9 +33,9 @@ const createEmbed = (data) => {
   }
 
   reply.addFields([
-    { name: 'Raumschiffe', value: shipsString },
-    { name: 'Fahrzeuge', value: vehicleString },
-    { name: 'Items', value: itemString },
+    { name: translate(interaction, 'ships'), value: shipsString },
+    { name: translate(interaction, 'vehicles'), value: vehicleString },
+    { name: translate(interaction, 'items'), value: itemString },
   ]);
 
   if (data.image !== null) {

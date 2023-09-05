@@ -1,7 +1,13 @@
 const Discord = require('discord.js');
-const { footer } = require('../../../../config.json');
+const { footer } = require('../../../config.json');
+const { translate } = require('../../translate');
 
-const createEmbed = (data) => {
+/**
+ * @param {Object} data
+ * @param {ChatInputCommandInteraction} interaction
+ * @return {Discord.EmbedBuilder}
+ */
+const createEmbed = (data, interaction) => {
   const text = data.translation.split('. ')[0];
 
   const reply = new Discord.EmbedBuilder({
@@ -14,9 +20,12 @@ const createEmbed = (data) => {
 
   const related = data.relatedArticles.reduce((carry, item) => `${carry}\n[${item.title}](${item.url})`, '');
 
-  reply.addFields(
-    [{ name: 'Verwandte Artikel', value: (related.length === 0 ? 'Keine' : related) }],
-  );
+  reply.addFields([
+    {
+      name: translate(interaction, 'related_articles'),
+      value: (related.length === 0 ? translate(interaction, 'none') : related),
+    },
+  ]);
 
   if (data.image !== null) {
     reply.setImage(data.image);

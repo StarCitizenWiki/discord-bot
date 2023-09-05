@@ -1,9 +1,15 @@
 const Discord = require('discord.js');
-const { footer, wiki_url } = require('../../../../config.json');
+const { footer, wiki_url } = require('../../../config.json');
+const { translate } = require('../../translate');
 
-const createEmbed = (data) => {
+/**
+ * @param {Object} data
+ * @param {ChatInputCommandInteraction} interaction
+ * @return {Discord.EmbedBuilder}
+ */
+const createEmbed = (data, interaction) => {
   const reply = new Discord.EmbedBuilder({
-    title: 'Hersteller',
+    title: translate(interaction, 'manufacturer'),
     type: 'link',
     url: `${wiki_url}/Kategorie:Unternehmen`,
     footer,

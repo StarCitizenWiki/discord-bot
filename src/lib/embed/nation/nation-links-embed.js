@@ -1,16 +1,22 @@
 const Discord = require('discord.js');
-const { footer, wiki_url } = require('../../../../config.json');
+const { footer, wiki_url } = require('../../../config.json');
+const { translate } = require('../../translate');
 
-const createEmbed = (data) => {
+/**
+ * @param {Object} data
+ * @param {ChatInputCommandInteraction} interaction
+ * @return {Discord.EmbedBuilder}
+ */
+const createEmbed = (data, interaction) => {
   const reply = new Discord.EmbedBuilder({
-    title: 'Völker',
+    title: translate(interaction, 'nations'),
     type: 'link',
     url: `${wiki_url}/Völker`,
     footer,
   });
 
   if (data.current > data.total) {
-    reply.setDescription('Diese Seite enthält keine Daten.');
+    reply.setDescription(translate(interaction, 'no_data'));
 
     return reply;
   }

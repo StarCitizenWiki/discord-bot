@@ -7,7 +7,14 @@ const createLinkDTO = require('../lib/dto/nation/nation-links-api-dto');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('volk')
-    .setDescription('Erzeugt eine Informationskarte zu einem Volk.'),
+    .setNameLocalizations({
+      'en-US': 'nation',
+    })
+    .setDescription('Erzeugt eine Informationskarte zu einem Volk.')
+    .setDescriptionLocalizations({
+      'en-US': 'Creates an information card about a nation.',
+      fr: 'Génère une carte d\'information sur un peuple.',
+    }),
   // .addStringOption(option =>
   //     option.setName('name')
   //         .setDescription('Name des Volks')
@@ -20,6 +27,6 @@ module.exports = {
     await interaction.deferReply({ ephemeral: false });
 
     const data = await requestData(interaction.options.getString('name'));
-    await interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data))] });
+    await interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data), interaction)] });
   },
 };

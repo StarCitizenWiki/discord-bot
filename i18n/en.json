@@ -1,0 +1,84 @@
+{
+  "%general": "",
+  "command_error": "Internal error: Could not execute command.",
+  "none": "None",
+  "no_shops_found": "No stores found",
+  "no_data": "This page does not contain any data.",
+  "and": "and",
+  "page": "Page",
+  "of": "from",
+  "yes": "Yes",
+  "no": "No",
+
+  "%galactapedia": "",
+  "related_articles": "Related articles",
+
+  "%items": "",
+  "buy": "Buy",
+  "sell": "Sell",
+
+  "%manufacturer": "",
+  "manufacturer": "Manufacturer",
+
+  "ships": "Ships",
+  "vehicles": "Vehicles",
+  "items": "Items",
+
+  "%nations": "",
+  "nations": "Nations",
+
+  "%persons": "",
+  "persons": "Persons",
+
+  "birth": "Birth",
+  "death": "Death",
+  "gender": "Gender",
+  "nation": "Nation",
+  "links": "Links",
+  "family": "Family",
+
+  "%ships": "",
+  "length": "Length",
+  "width": "Width",
+  "height": "Beam",
+  "crew": "Crew",
+  "scm": "SCM",
+  "speed": "Max. Speed",
+  "weight": "Weight",
+  "scu": "SCU",
+  "inventory": "Inventory",
+  "stowage": "Stowage",
+  "price": "Cur. Price",
+
+  "focus": "Focus",
+  "size": "Size",
+  "status": "Status",
+
+  "brochure": "Brochure",
+
+  "%starsystem": "",
+  "starsystem": "Starsystem",
+  "starsystems": "Starsystems",
+
+  "affiliation": "Affiliation",
+  "population": "Population",
+  "economy": "Economy",
+  "danger": "Danger",
+  "stars": "Stars",
+  "planets": "Planets",
+  "stations": "Stations",
+  "jumppoints": "Jumppoints",
+
+  "%stats": "",
+  "stats": "Star Citizen Stats",
+  "funds": "Funds",
+  "fleet": "Fleet",
+
+  "%incidents": "",
+  "last_changed": "Last changed",
+  "affected_systems": "Affected systems",
+  "resolved": "Resolved",
+  "severity": "Severity",
+  "incident_date": "Since",
+  "updated_date": "Updated"
+}

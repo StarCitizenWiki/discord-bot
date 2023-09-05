@@ -10,8 +10,24 @@ const createLinkDTO = require('../lib/dto/manufacturer/manufacturer-links-api-dt
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('hersteller')
+    .setNameLocalizations({
+      'en-US': 'manufacturer',
+      fr: 'producteur',
+    })
     .setDescription('Erzeugt eine Informationskarte zu einem bestimmten Hersteller.')
-    .addStringOption((option) => option.setName('name').setDescription('Name des Herstellers.')),
+    .setDescriptionLocalizations({
+      'en-US': 'Creates an information card about a specific manufacturer.',
+      fr: 'Crée une carte d\'information sur un producteur spécifique.',
+    })
+    .addStringOption((option) => option.setName('name')
+      .setNameLocalizations({
+        fr: 'nom',
+      })
+      .setDescription('Name des Herstellers.')
+      .setDescriptionLocalizations({
+        'en-US': 'Name of the manufacturer.',
+        fr: 'Nom du producteur.',
+      })),
   /**
    * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}
@@ -24,12 +40,12 @@ module.exports = {
     if (name === null) {
       const data = await requestData('');
 
-      return interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data))] });
+      return interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data), interaction)] });
     }
 
     const result = await requestData(name);
     const image = await requestImage(name);
 
-    return interaction.editReply({ embeds: [createEmbed(createDTO(result, image))] });
+    return interaction.editReply({ embeds: [createEmbed(createDTO(result, image), interaction)] });
   },
 };
