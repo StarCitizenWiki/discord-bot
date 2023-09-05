@@ -28,8 +28,7 @@ module.exports = {
       .setDescriptionLocalizations({
         'en-US': 'Output of a person\'s information.',
         fr: 'Sortie des informations d\'une personne.',
-      })
-    )
+      }))
     .addIntegerOption((option) => option.setName('seite')
       .setNameLocalizations({
         'en-US': 'page',
@@ -39,8 +38,7 @@ module.exports = {
       .setDescriptionLocalizations({
         'en-US': 'Change the page, when outputting all people.',
         fr: 'Modifier la page, à la sortie de toutes les personnes.',
-      })
-    ),
+      })),
   /**
    * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}
@@ -50,7 +48,7 @@ module.exports = {
 
     if (interaction.options.getInteger('seite') || interaction.options.getString('name') === null) {
       const data = await requestLinkData(interaction.options.getInteger('seite'));
-      return interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data))] });
+      return interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data), interaction)] });
     }
 
     const name = interaction.options.getString('name').split(' ').map((part) => part.charAt(0).toUpperCase() + part.slice(1))
@@ -71,6 +69,6 @@ module.exports = {
 
     const dto = createDTO(Object.entries(result)[0][1]);
 
-    return interaction.editReply({ embeds: [createEmbed(dto, image)] });
+    return interaction.editReply({ embeds: [createEmbed(dto, image, interaction)] });
   },
 };

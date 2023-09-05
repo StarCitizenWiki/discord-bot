@@ -38,6 +38,6 @@ module.exports = {
     const name = interaction.options.getString('name');
     const reply = await requestData(name);
 
-    return interaction.editReply({ embeds: [createVehicleEmbed(createVehicleDto(reply))] });
+    return interaction.editReply({ embeds: [createVehicleEmbed(createVehicleDto(reply), interaction)] });
   },
 };

@@ -1,0 +1,84 @@
+{
+  "%general": "",
+  "command_error": "Interner Fehler: Konnte Befehl nicht ausführen.",
+  "none": "Keine",
+  "no_shops_found": "Keine Shops gefunden",
+  "no_data": "Diese Seite enthält keine Daten.",
+  "and": "und",
+  "page": "Seite",
+  "of": "von",
+  "yes": "Ja",
+  "no": "Nein",
+
+  "%galactapedia": "",
+  "related_articles": "Verwandte Artikel",
+
+  "%items": "",
+  "buy": "Kauf",
+  "sell": "Verkauf",
+
+  "%manufacturer": "",
+  "manufacturer": "Hersteller",
+
+  "ships": "Raumschiffe",
+  "vehicles": "Fahrzeuge",
+  "items": "Items",
+
+  "%nations": "",
+  "nations": "Völker",
+
+  "%persons": "",
+  "persons": "Persönlichkeiten",
+
+  "birth": "Geburtsdatum",
+  "death": "Todesdatum",
+  "gender": "Geschlecht",
+  "nation": "Volk",
+  "links": "Links",
+  "family": "Familie",
+
+  "%ships": "",
+  "length": "Länge",
+  "width": "Breite",
+  "height": "Höhe",
+  "crew": "Besatzung",
+  "scm": "Kampf Geschw.",
+  "speed": "Max. Geschw.",
+  "weight": "Gewicht",
+  "scu": "Frachtkapazität",
+  "inventory": "Inventar",
+  "stowage": "Pers. Inventar",
+  "price": "Aktueller Preis",
+
+  "focus": "Fokus",
+  "size": "Größe",
+  "status": "Status",
+
+  "brochure": "Broschüre",
+
+  "%starsystem": "",
+  "starsystem": "Sternensystem",
+  "starsystems": "Sternensysteme",
+
+  "affiliation": "Kontrolle",
+  "population": "Bevölkerung",
+  "economy": "Wirtschaft",
+  "danger": "Gefahrenlage",
+  "stars": "Sterne",
+  "planets": "Planeten",
+  "stations": "Raumstationen",
+  "jumppoints": "Sprungpunkte",
+
+  "%stats": "",
+  "stats": "Star Citizen Statistiken",
+  "funds": "Spenden",
+  "fleet": "Fleet",
+
+  "%incidents": "",
+  "last_changed": "Letzte Änderung",
+  "affected_systems": "Betroffene Systeme",
+  "resolved": "Behoben",
+  "severity": "Schweregrad",
+  "incident_date": "Seit",
+  "updated_date": "Aktualisierung"
+}

@@ -17,17 +17,17 @@ module.exports = {
       fr: 'Crée une carte d\'information sur un vaisseau spatial ou un véhicule spécifique.',
     })
     .addStringOption((option) => option
-    .setName('name')
-    .setNameLocalizations({
-      fr: 'nom',
-    })
-    .setDescription('Vehicle name')
-    .setDescriptionLocalizations({
-      de: 'Fahrzeug name',
-      fr: 'Nom du véhicule',
-    })
-    .setAutocomplete(true)
-    .setRequired(true)),
+      .setName('name')
+      .setNameLocalizations({
+        fr: 'nom',
+      })
+      .setDescription('Vehicle name')
+      .setDescriptionLocalizations({
+        de: 'Fahrzeug name',
+        fr: 'Nom du véhicule',
+      })
+      .setAutocomplete(true)
+      .setRequired(true)),
   /**
    * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}
@@ -38,6 +38,6 @@ module.exports = {
     const name = interaction.options.getString('name');
     const reply = await requestData(name);
 
-    return interaction.editReply({ embeds: [createVehicleEmbed(createVehicleDto(reply))] });
+    return interaction.editReply({ embeds: [createVehicleEmbed(createVehicleDto(reply), interaction)] });
   },
 };

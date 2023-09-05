@@ -34,6 +34,6 @@ module.exports = {
     const name = interaction.options.getString('name');
     const reply = await requestData(name);
 
-    return interaction.editReply({ embeds: [createItemEmbed(createItemDto(reply))] });
+    return interaction.editReply({ embeds: [createItemEmbed(createItemDto(reply), interaction)] });
   },
 };

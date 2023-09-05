@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { footer } = require('../../../config.json');
+const { translate } = require('../../translate');
 
 const formatDate = (date) => {
   if (date === 0) {
@@ -11,7 +12,13 @@ const formatDate = (date) => {
   return dateObj.getFullYear().toString();
 };
 
-const createEmbed = (data, image) => {
+/**
+ * @param {Object} data
+ * @param {string} image
+ * @param {ChatInputCommandInteraction} interaction
+ * @return {Discord.EmbedBuilder}
+ */
+const createEmbed = (data, image, interaction) => {
   const reply = new Discord.EmbedBuilder({
     timestamp: data.timestamp,
     title: data.name,
@@ -22,10 +29,10 @@ const createEmbed = (data, image) => {
   });
 
   reply.addFields([
-    { name: 'Geburtsdatum', value: formatDate(data.birth), inline: true },
-    { name: 'Todesdatum', value: formatDate(data.death), inline: true },
-    { name: 'Geschlecht', value: data.gender, inline: true },
-    { name: 'Volk', value: data.nation, inline: true },
+    { name: translate(interaction, 'birth'), value: formatDate(data.birth), inline: true },
+    { name: translate(interaction, 'death'), value: formatDate(data.death), inline: true },
+    { name: translate(interaction, 'gender'), value: data.gender, inline: true },
+    { name: translate(interaction, 'nation'), value: data.nation, inline: true },
   ]);
 
   const links = [
@@ -39,8 +46,8 @@ const createEmbed = (data, image) => {
   });
 
   reply.addFields([
-    { name: 'Links', value: links.join(' · ') },
-    { name: 'Familie', value: data.relatives.length === 0 ? '-' : data.relatives.join(', ') },
+    { name: translate(interaction, 'links'), value: links.join(' · ') },
+    { name: translate(interaction, 'family'), value: data.relatives.length === 0 ? '-' : data.relatives.join(', ') },
   ]);
 
   if (image !== null) {

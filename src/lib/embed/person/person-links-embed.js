@@ -1,9 +1,15 @@
 const Discord = require('discord.js');
 const { footer, wiki_url } = require('../../../config.json');
+const { translate } = require('../../translate');
 
-const createEmbed = (data) => {
+/**
+ * @param {Object} data
+ * @param {ChatInputCommandInteraction} interaction
+ * @return {Discord.EmbedBuilder}
+ */
+const createEmbed = (data, interaction) => {
   const reply = new Discord.EmbedBuilder({
-    title: 'Persönlichkeiten',
+    title: translate(interaction, 'persons'),
     type: 'link',
     url: `${wiki_url}/Persönlichkeiten`,
     footer,
@@ -11,7 +17,7 @@ const createEmbed = (data) => {
 
   const personLinks = data.map((person) => `[${person.name}](https:${person.url})`).join('\n');
 
-  reply.setDescription(personLinks.length === 0 ? 'Diese Seite enthält keine Daten.' : personLinks);
+  reply.setDescription(personLinks.length === 0 ? translate(interaction, 'no_data') : personLinks);
 
   return reply;
 };

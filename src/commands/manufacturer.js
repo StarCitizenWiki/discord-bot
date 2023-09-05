@@ -27,8 +27,7 @@ module.exports = {
       .setDescriptionLocalizations({
         'en-US': 'Name of the manufacturer.',
         fr: 'Nom du producteur.',
-      })
-    ),
+      })),
   /**
    * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}
@@ -41,12 +40,12 @@ module.exports = {
     if (name === null) {
       const data = await requestData('');
 
-      return interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data))] });
+      return interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data), interaction)] });
     }
 
     const result = await requestData(name);
     const image = await requestImage(name);
 
-    return interaction.editReply({ embeds: [createEmbed(createDTO(result, image))] });
+    return interaction.editReply({ embeds: [createEmbed(createDTO(result, image), interaction)] });
   },
 };

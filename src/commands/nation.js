@@ -8,7 +8,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('volk')
     .setNameLocalizations({
-      'en-US': 'nation'
+      'en-US': 'nation',
     })
     .setDescription('Erzeugt eine Informationskarte zu einem Volk.')
     .setDescriptionLocalizations({
@@ -27,6 +27,6 @@ module.exports = {
     await interaction.deferReply({ ephemeral: false });
 
     const data = await requestData(interaction.options.getString('name'));
-    await interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data))] });
+    await interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data), interaction)] });
   },
 };

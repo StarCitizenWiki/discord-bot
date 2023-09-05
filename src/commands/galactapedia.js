@@ -39,6 +39,6 @@ module.exports = {
       };
     }
 
-    await interaction.editReply({ embeds: [createEmbed(createDTO(result))] });
+    await interaction.editReply({ embeds: [createEmbed(createDTO(result), interaction)] });
   },
 };

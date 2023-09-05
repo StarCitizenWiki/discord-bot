@@ -1,7 +1,13 @@
 const Discord = require('discord.js');
 const { footer, wiki_url } = require('../../../config.json');
+const { translate } = require('../../translate');
 
-const createEmbed = (data) => {
+/**
+ * @param {Object} data
+ * @param {ChatInputCommandInteraction} interaction
+ * @return {Discord.EmbedBuilder}
+ */
+const createEmbed = (data, interaction) => {
   const reply = new Discord.EmbedBuilder({
     timestamp: data.timestamp,
     title: data.name,
@@ -19,16 +25,16 @@ const createEmbed = (data) => {
   }
 
   reply.addFields([
-    { name: 'Größe', value: `${data.size} AE`, inline: true },
-    { name: 'Kontrolle', value: `[${data.affiliation}](${wiki_url}/${data.affiliation})`, inline: true },
-    { name: 'Status', value: data.status, inline: true },
-    { name: 'Bevölkerung', value: data.population.toString(), inline: true },
-    { name: 'Wirtschaft', value: data.economy.toString(), inline: true },
-    { name: 'Gefahrenlage', value: data.danger.toString(), inline: true },
-    { name: 'Sterne', value: data.stars_count.toString(), inline: true },
-    { name: 'Planeten', value: data.planets_count.toString(), inline: true },
-    { name: 'Raumstationen', value: data.stations_count.toString(), inline: true },
-    { name: 'Sprungpunkte', value: jumppoints },
+    { name: translate(interaction, 'size'), value: `${data.size} AE`, inline: true },
+    { name: translate(interaction, 'affiliation'), value: `[${data.affiliation}](${wiki_url}/${data.affiliation})`, inline: true },
+    { name: translate(interaction, 'status'), value: data.status, inline: true },
+    { name: translate(interaction, 'population'), value: data.population.toString(), inline: true },
+    { name: translate(interaction, 'economy'), value: data.economy.toString(), inline: true },
+    { name: translate(interaction, 'danger'), value: data.danger.toString(), inline: true },
+    { name: translate(interaction, 'stars'), value: data.stars_count.toString(), inline: true },
+    { name: translate(interaction, 'planets'), value: data.planets_count.toString(), inline: true },
+    { name: translate(interaction, 'stations'), value: data.stations_count.toString(), inline: true },
+    { name: translate(interaction, 'jumppoints'), value: jumppoints },
   ]);
 
   if (data.image !== null) {

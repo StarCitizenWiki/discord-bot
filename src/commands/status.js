@@ -27,8 +27,7 @@ module.exports = {
       .setDescriptionLocalizations({
         'en-US': 'Information about the most recent incident.',
         fr: 'Affichage du dernier incident.',
-      })
-    )
+      }))
     .addBooleanOption((option) => option.setName('add')
       .setNameLocalizations({
         'en-US': 'add',
@@ -38,8 +37,7 @@ module.exports = {
       .setDescriptionLocalizations({
         'en-US': 'Setup the current channel to receive notifications.',
         fr: 'Ajouter le canal actuel aux notifications.',
-      })
-    )
+      }))
     .addBooleanOption((option) => option.setName('remove')
       .setNameLocalizations({
         'en-US': 'remove',
@@ -49,8 +47,7 @@ module.exports = {
       .setDescriptionLocalizations({
         'en-US': 'Remove the current channel from notifications.',
         fr: 'Supprimer le canal actuel des notifications.',
-      })
-    ),
+      })),
   /**
    * @param {ChatInputCommandInteraction} interaction
    * @returns {Promise<boolean|void>}

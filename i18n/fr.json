@@ -1,0 +1,84 @@
+{
+  "%general": "",
+  "command_error": "Erreur interne : n'a pas pu exécuter la commande.",
+  "none": "Aucun",
+  "no_shops_found": "Aucun magasin trouvé",
+  "no_data": "Cette page ne contient aucune donnée.",
+  "and": "et",
+  "page": "Page",
+  "of": "de",
+  "yes": "Oui",
+  "no": "Non",
+
+  "%galactapedia": "",
+  "related_articles": "Articles connexes",
+
+  "%items": "",
+  "buy": "Acheter",
+  "sell": "Vendre",
+
+  "%manufacturer": "",
+  "manufacturer": "Producteur",
+
+  "ships": "Navires",
+  "vehicles": "Véhicules",
+  "items": "Articles",
+
+  "%nations": "",
+  "nations": "Nations",
+
+  "%persons": "",
+  "persons": "Personnes",
+
+  "birth": "Naissance",
+  "death": "Décès",
+  "gender": "Sexe",
+  "nation": "Pays",
+  "links": "Liens",
+  "family": "Famille",
+
+  "%ships": "",
+  "length": "Longueur",
+  "width": "Largeur",
+  "height": "Poutre",
+  "crew": "Équipage",
+  "scm": "SCM",
+  "speed": "max. Vitesse",
+  "weight": "Poids",
+  "scu": "SCU",
+  "inventory": "Inventaire",
+  "stowage": "Stockage",
+  "price": "Cur. Prix",
+
+  "focus": "Focus",
+  "size": "Taille",
+  "status": "Statut",
+
+  "brochure": "Brochure",
+
+  "%starsystem": "",
+  "starsystem": "Système d'étoiles",
+  "starsystems": "Systèmes d'étoiles",
+
+  "affiliation": "Affiliation",
+  "population": "Population",
+  "economy": "Economie",
+  "danger": "Danger",
+  "stars": "Étoiles",
+  "planets": "Planètes",
+  "stations": "Stations",
+  "jumppoints": "Jumppoints",
+
+  "%stats": "",
+  "stats": "Star Citizen Stats",
+  "funds": "Funds",
+  "fleet": "Fleet",
+
+  "%incidents": "",
+  "last_changed": "Dernière modification",
+  "affected_systems": "Systèmes concernés",
+  "resolved": "Résolu",
+  "severity": "Sévérité",
+  "incident_date": "Depuis",
+  "updated_date": "Mise à jour"
+}

@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const { footer, wiki_url } = require('../../../config.json');
+const { translate, getLocale } = require('../../translate');
 
 const formatCrew = (data) => {
   if (data.crew_min === 0 && data.crew_max === 0) {
@@ -23,39 +24,44 @@ const formatCrew = (data) => {
   return crewString.toString();
 };
 
-const formatPrice = (price) => {
+const formatPrice = (price, interaction) => {
   if (price === 0) {
     return '-';
   }
 
-  return `${price.toLocaleString('de-DE')}$`;
+  return `${price.toLocaleString(getLocale(interaction))}$`;
 };
 
-const formatSpeed = (speed) => {
+const formatSpeed = (speed, interaction) => {
   if (speed === 0) {
     return '-';
   }
 
-  return `${speed.toLocaleString('de-DE')} m/s`;
+  return `${speed.toLocaleString(getLocale(interaction))} m/s`;
 };
 
-const formatWeight = (weight) => {
+const formatWeight = (weight, interaction) => {
   if (weight === 0) {
     return '-';
   }
 
-  return `${weight.toLocaleString('de-DE')} Kg`;
+  return `${weight.toLocaleString(getLocale(interaction))} Kg`;
 };
 
-const formatCargo = (cargo) => {
+const formatCargo = (cargo, interaction) => {
   if (cargo === 0) {
     return '-';
   }
 
-  return `${cargo.toLocaleString('de-DE')} SCU`;
+  return `${cargo.toLocaleString(getLocale(interaction))} SCU`;
 };
 
-const createEmbed = (data) => {
+/**
+ * @param {Object} data
+ * @param {ChatInputCommandInteraction} interaction
+ * @return {Discord.EmbedBuilder}
+ */
+const createEmbed = (data, interaction) => {
   const reply = new Discord.EmbedBuilder({
     timestamp: data.timestamp,
     title: data.name,
@@ -69,35 +75,35 @@ const createEmbed = (data) => {
   });
 
   reply.addFields([
-    { name: 'Länge', value: `${data.length} m`, inline: true },
-    { name: 'Breite', value: `${data.beam} m`, inline: true },
-    { name: 'Höhe', value: `${data.height} m`, inline: true },
-    { name: 'Besatzung', value: formatCrew(data), inline: true },
-    { name: 'Kampf Geschw.', value: formatSpeed(data.scm), inline: true },
-    { name: 'Max. Geschw.', value: formatSpeed(data.afterburner), inline: true },
-    { name: 'Gewicht', value: formatWeight(data.mass), inline: true },
-    { name: 'Frachtkapazität', value: formatCargo(data.cargo), inline: true },
-    { name: 'Inventar', value: formatCargo(data.vehicle_inventory), inline: true },
-    { name: 'Pers. Inventar', value: formatCargo(data.personal_inventory), inline: true },
-    { name: 'Aktueller Preis', value: formatPrice(data.price), inline: true },
+    { name: translate(interaction, 'length'), value: `${data.length} m`, inline: true },
+    { name: translate(interaction, 'width'), value: `${data.beam} m`, inline: true },
+    { name: translate(interaction, 'height'), value: `${data.height} m`, inline: true },
+    { name: translate(interaction, 'crew'), value: formatCrew(data), inline: true },
+    { name: translate(interaction, 'scm'), value: formatSpeed(data.scm, interaction), inline: true },
+    { name: translate(interaction, 'speed'), value: formatSpeed(data.afterburner, interaction), inline: true },
+    { name: translate(interaction, 'weight'), value: formatWeight(data.mass, interaction), inline: true },
+    { name: translate(interaction, 'scu'), value: formatCargo(data.cargo, interaction), inline: true },
+    { name: translate(interaction, 'inventory'), value: formatCargo(data.vehicle_inventory, interaction), inline: true },
+    { name: translate(interaction, 'stowage'), value: formatCargo(data.personal_inventory, interaction), inline: true },
+    { name: translate(interaction, 'price'), value: formatPrice(data.price, interaction), inline: true },
   ]);
 
   let { foci } = data;
   if (data.foci.length > 0) {
-    foci = foci.join(' und ');
+    foci = foci.join(` ${translate(interaction, 'and')} `);
   } else {
     foci = '-';
   }
 
   reply.addFields([
     {
-      name: 'Hersteller',
+      name: translate(interaction, 'manufacturer'),
       value: `[${data.manufacturer}](${wiki_url}/${encodeURIComponent(data.manufacturer.replace(/\s/g, '_'))})`,
       inline: true,
     },
-    { name: 'Fokus', value: foci, inline: true },
-    { name: 'Größe', value: (`${data.size}`).length === 0 ? '-' : data.size, inline: true },
-    { name: 'Status', value: data.status.length === 0 ? '-' : data.status, inline: true },
+    { name: translate(interaction, 'focus'), value: foci, inline: true },
+    { name: translate(interaction, 'size'), value: (`${data.size}`).length === 0 ? '-' : data.size, inline: true },
+    { name: translate(interaction, 'status'), value: data.status.length === 0 ? '-' : data.status, inline: true },
   ]);
 
   const links = [
@@ -109,8 +115,8 @@ const createEmbed = (data) => {
   let youtubeAdded = false;
 
   data.sources.forEach((source) => {
-    if (source.includes('Broschüre')) {
-      links.push(`[Broschüre](${source})`);
+    if (source.includes(translate(interaction, 'brochure'))) {
+      links.push(`[${translate(interaction, 'brochure')}](${source})`);
     }
 
     if (source.includes('/pledge/ships') && !source.includes('#') && !pledgeAdded) {
@@ -124,7 +130,7 @@ const createEmbed = (data) => {
     }
   });
 
-  reply.addFields([{ name: 'Links', value: links.join(' · ') }]);
+  reply.addFields([{ name: translate(interaction, 'links'), value: links.join(' · ') }]);
 
   if (data.image !== null) {
     reply.setImage(data.image);

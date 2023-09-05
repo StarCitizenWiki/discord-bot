@@ -3,11 +3,12 @@ const { SlashCommandBuilder } = require('discord.js');
 const Discord = require('discord.js');
 const axios = require('../lib/request/request');
 const { footer } = require('../../config.json');
+const { translate, getLocale } = require('../lib/translate');
 
-const formatFunds = (funds) => {
+const formatFunds = (funds, interaction) => {
   const intVal = parseInt(funds.substring(0, funds.length - 3), 10);
 
-  return `${intVal.toLocaleString('de-DE')}$`;
+  return `${intVal.toLocaleString(getLocale(interaction))}$`;
 };
 
 module.exports = {
@@ -40,13 +41,13 @@ module.exports = {
 
     const reply = new Discord.EmbedBuilder({
       timestamp: result.timestamp,
-      title: 'Star Citizen Statistiken',
+      title: translate(interaction, 'stats'),
       footer,
     });
 
     reply.addFields([
-      { name: 'Spenden', value: formatFunds(result.funds), inline: true },
-      { name: 'Fleet', value: result.fleet.toLocaleString('de-DE'), inline: true },
+      { name: translate(interaction, 'funds'), value: formatFunds(result.funds, interaction), inline: true },
+      { name: translate(interaction, 'fleet'), value: result.fleet.toLocaleString(getLocale(interaction)), inline: true },
     ]);
 
     await interaction.editReply({ embeds: [reply] });
