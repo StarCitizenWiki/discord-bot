@@ -8,7 +8,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY --chown=node:node src .
+COPY --chown=node:node ./src/ /home/node/app/src
 
 USER node
 
