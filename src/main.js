@@ -159,7 +159,7 @@ client.on('interactionCreate', async (interaction) => {
   await interaction.respond(
     data.map((res) => ({
       name: res[key],
-      value: res[valueKey ?? key],
+      value: res[valueKey ?? key] ?? res[key],
     })),
   );
 });
