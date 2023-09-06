@@ -49,13 +49,13 @@ module.exports = {
     await interaction.deferReply({ ephemeral: false });
 
     if (interaction.options.getInteger('seite') || interaction.options.getString('name') === null) {
-      const data = await requestLinkData(interaction.options.getInteger('seite'));
+      const data = await requestLinkData(interaction);
       return interaction.editReply({ embeds: [createSystemLinksEmbed(createSystemLinkDto(data), interaction)] });
     }
 
     const name = interaction.options.getString('name');
 
-    const result = await requestData(name);
+    const result = await requestData(interaction);
     const image = await requestImage(`${name}|${name} (${translate(interaction, 'starsystem')})`);
 
     return interaction.editReply({ embeds: [createEmbed(createDTO(result.data, image), interaction)] });

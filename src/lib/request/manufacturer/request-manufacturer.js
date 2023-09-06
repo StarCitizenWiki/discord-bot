@@ -1,6 +1,8 @@
 const axios = require('../request');
 
-const requestData = async (name) => {
+const requestData = async (interaction) => {
+  const name = interaction.options.getString('name') ?? '';
+
   let uri = `/${encodeURIComponent(name.toLowerCase())}`;
   if (name.length === 0) {
     uri = '';

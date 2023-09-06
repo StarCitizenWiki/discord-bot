@@ -47,7 +47,7 @@ module.exports = {
     await interaction.deferReply({ ephemeral: false });
 
     if (interaction.options.getInteger('seite') || interaction.options.getString('name') === null) {
-      const data = await requestLinkData(interaction.options.getInteger('seite'));
+      const data = await requestLinkData(interaction);
       return interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data), interaction)] });
     }
 

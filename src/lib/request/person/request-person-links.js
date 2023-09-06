@@ -6,7 +6,9 @@ const instance = axios.create({
   timeout: 2500,
 });
 
-const requestData = async (argPage) => {
+const requestData = async (interaction) => {
+  const argPage = interaction.options.getInteger('seite');
+
   let page = 0;
   if (argPage !== null) {
     page = 10 * Math.abs(Number.parseInt(argPage, 10) - 1);

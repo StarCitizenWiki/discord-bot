@@ -1,6 +1,8 @@
 const axios = require('../request');
 
-const requestData = async (name) => {
+const requestData = async (interaction) => {
+  const name = interaction.options.getString('name');
+
   const apiData = await axios.get(`starmap/starsystems/${encodeURIComponent(name.toLowerCase())}`, {
     params: {
       include: 'celestial_objects,jumppoints',

@@ -68,16 +68,16 @@ const nameMappings = {
 };
 
 /**
- * @param name
  * @param {ChatInputCommandInteraction} interaction
  * @returns {Promise<{result: *, image: *, semantic: *}>}
  */
-const requestData = async (name, interaction) => {
-  name = name.replace('[', '').replace(']', '');
+const requestData = async (interaction) => {
+  let uuid = interaction.options.getString('name');
+  uuid = uuid.replace('[', '').replace(']', '');
 
   Object.entries(nameMappings).every((mapping) => {
-    if (mapping[1].includes(name.toLowerCase())) {
-      name = mapping[0];
+    if (mapping[1].includes(uuid.toLowerCase())) {
+      uuid = mapping[0];
 
       return false;
     }
@@ -85,26 +85,18 @@ const requestData = async (name, interaction) => {
     return true;
   });
 
-  let apiData = await axios.post('v2/vehicles/search', {
-    query: name.toLowerCase(),
-  }, {
+  const apiData = await axios.get(`v2/vehicles/${uuid}`, {
     params: {
       locale: getApiLocale(interaction),
-      limit: 1,
     },
   })
     .catch((error) => error);
 
-  if (apiData.status !== 200) {
-    throw apiData;
+  const result = apiData?.data?.data;
+
+  if (result === null) {
+    throw result;
   }
-
-  let result = apiData.data.data[0];
-
-  apiData = await axios.get(`v2/vehicles/${result.uuid}`)
-    .catch((error) => error);
-
-  result = apiData.data.data;
 
   let semanticData = await requestSemanticData(result.name);
 

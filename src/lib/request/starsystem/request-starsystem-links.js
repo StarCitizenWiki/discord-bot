@@ -1,6 +1,7 @@
 const axios = require('../request');
 
-const requestData = async (argPage) => {
+const requestData = async (interaction) => {
+  const argPage = interaction.options.getInteger('seite');
   let page = 0;
   if (argPage) {
     page = Math.abs(Number.parseInt(argPage, 10));

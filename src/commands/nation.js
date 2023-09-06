@@ -26,7 +26,7 @@ module.exports = {
   async execute(interaction) {
     await interaction.deferReply({ ephemeral: false });
 
-    const data = await requestData(interaction.options.getString('name'));
+    const data = await requestData(interaction);
     await interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data), interaction)] });
   },
 };

@@ -3,7 +3,9 @@ const { locale } = require('../../../../config.json');
 const requestImage = require('../request-image');
 const { getApiLocale } = require('../../translate');
 
-const requestData = async (name, interaction) => {
+const requestData = async (interaction) => {
+  const name = interaction.options.getString('name');
+
   const apiData = await axios.get(`v2/items/${encodeURIComponent(name.toLowerCase())}`, {
     params: {
       include: 'shops.items',

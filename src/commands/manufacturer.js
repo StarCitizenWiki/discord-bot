@@ -38,12 +38,12 @@ module.exports = {
     const name = interaction.options.getString('name');
 
     if (name === null) {
-      const data = await requestData('');
+      const data = await requestData(interaction);
 
       return interaction.editReply({ embeds: [createLinkEmbed(createLinkDTO(data), interaction)] });
     }
 
-    const result = await requestData(name);
+    const result = await requestData(interaction);
     const image = await requestImage(name);
 
     return interaction.editReply({ embeds: [createEmbed(createDTO(result, image), interaction)] });

@@ -31,8 +31,7 @@ module.exports = {
   async execute(interaction) {
     await interaction.deferReply({ ephemeral: false });
 
-    const name = interaction.options.getString('name');
-    const reply = await requestData(name, interaction);
+    const reply = await requestData(interaction);
 
     return interaction.editReply({ embeds: [createItemEmbed(createItemDto(reply), interaction)] });
   },

@@ -44,10 +44,10 @@ const createEmbed = (data, interaction) => {
   }
 
   if (shopData.length === 0) {
-    if (reply.description === '-') {
+    if (reply.data.description === '-') {
       reply.setDescription(translate(interaction, 'no_shops_found'));
     } else {
-      reply.setDescription(`${reply.description}\n\n${translate(interaction, 'no_shops_found')}`);
+      reply.setDescription(`${reply.data.description}\n\n${translate(interaction, 'no_shops_found')}`);
     }
   }
 

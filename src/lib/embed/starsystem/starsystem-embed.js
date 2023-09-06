@@ -14,7 +14,6 @@ const createEmbed = (data, interaction) => {
     description: data.description,
     type: 'link',
     url: `${wiki_url}/${encodeURIComponent(data.name)}`,
-    color: data.color,
     footer,
   });
 
@@ -40,6 +39,8 @@ const createEmbed = (data, interaction) => {
   if (data.image !== null) {
     reply.setImage(data.image);
   }
+
+  reply.setColor(data.color);
 
   return reply;
 };

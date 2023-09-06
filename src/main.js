@@ -138,6 +138,7 @@ client.on('interactionCreate', async (interaction) => {
     case 'ship':
     case 'fahrzeug':
     case 'schiff':
+      valueKey = 'uuid';
       requestData = require('./lib/request/vehicle/request-search-vehicle');
       break;
 

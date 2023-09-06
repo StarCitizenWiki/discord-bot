@@ -11,7 +11,7 @@ const createDTO = (data) => {
     type: safeValueAccess('type', result, ''),
     manufacturer: safeValueAccess('manufacturer.name', result, ''),
 
-    description: safeValueAccess('specification.description', result, ''),
+    description: safeValueAccess('description', result, ''),
 
     shops: safeValueAccess('shops', result, []),
 

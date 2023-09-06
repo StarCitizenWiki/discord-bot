@@ -20,11 +20,11 @@ const formatDate = (date) => {
  */
 const createEmbed = (data, image, interaction) => {
   const reply = new Discord.EmbedBuilder({
-    timestamp: data.timestamp,
+    // timestamp: data.timestamp,
     title: data.name,
     // description: data.description,
     type: 'link',
-    url: `https:${data.url}`,
+    url: data.url,
     footer,
   });
 
@@ -36,7 +36,7 @@ const createEmbed = (data, image, interaction) => {
   ]);
 
   const links = [
-    `[Wiki](https:${data.url})`,
+    `[Wiki](${data.url})`,
   ];
 
   data.sources.forEach((source) => {
