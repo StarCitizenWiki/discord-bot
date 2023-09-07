@@ -10,6 +10,17 @@
   "yes": "Yes",
   "no": "No",
 
+  "%errors": "",
+  "error_api_not_found": "The Star Citizen Wiki API is not reachable at the specified URL.",
+  "error_api_no_connection": "The Star Citizen Wiki API is currently unreachable",
+  "error_no_data": "I could not find any data related to the input.",
+  "error_too_many_requests": "Too many requests sent. Please wait.",
+  "error_command_failure": "The command could not be executed.",
+
+  "%comm-link": "",
+  "newest_comm_link":  "The current Comm-Link",
+  "newest_comm_links":  "The current Comm-Links",
+
   "%galactapedia": "",
   "related_articles": "Related articles",
 
