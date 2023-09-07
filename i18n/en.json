@@ -80,5 +80,15 @@
   "resolved": "Resolved",
   "severity": "Severity",
   "incident_date": "Since",
-  "updated_date": "Updated"
+  "updated_date": "Updated",
+
+  "operational": "Operational",
+  "under-maintenance": "Under maintenance",
+  "major-outage":  "Major outage",
+  "partial-outage": "Partial outage",
+  "degraded-performance":  "Degraded performance",
+
+  "platform": "Platform",
+  "pu": "Persistent Universe",
+  "ea": "Electronic Access"
 }

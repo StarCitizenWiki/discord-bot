@@ -1,41 +1,3 @@
-const getSystemName = (name) => {
-  switch (name) {
-    case 'platform':
-      return 'Plattform';
-
-    case 'pu':
-      return 'Persistent Universe';
-
-    case 'ea':
-      return 'Electronic Access';
-
-    default:
-      return name;
-  }
-};
-
-const getStatusName = (name) => {
-  switch (name) {
-    case 'operational':
-      return 'Funktionsfähig';
-
-    case 'under-maintenance':
-      return 'Wartung';
-
-    case 'major-outage':
-      return 'Großausfall';
-
-    case 'partial-outage':
-      return 'Teilweiser Ausfall';
-
-    case 'degraded-performance':
-      return 'Verminderte Leistung';
-
-    default:
-      return name;
-  }
-};
-
 const getStatusIcon = (status) => {
   switch (status) {
     case 'operational':
@@ -85,8 +47,6 @@ const formatDescription = (description) => description
   .join('\n[');
 
 module.exports = {
-  getSystemName,
-  getStatusName,
   getStatusIcon,
   getStatusColor,
   formatDescription,

@@ -1,14 +1,14 @@
-const Discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { footer, wiki_url } = require('../../../../config.json');
 const { translate } = require('../../translate');
 
 /**
  * @param {Object} data
  * @param {ChatInputCommandInteraction} interaction
- * @return {Discord.EmbedBuilder}
+ * @return {EmbedBuilder}
  */
 const createEmbed = (data, interaction) => {
-  const reply = new Discord.EmbedBuilder({
+  const reply = new EmbedBuilder({
     title: translate(interaction, 'nations'),
     type: 'link',
     url: `${wiki_url}/Völker`,

@@ -1,16 +1,16 @@
-const Discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { footer } = require('../../../../config.json');
 const { translate } = require('../../translate');
 
 /**
  * @param {Object} data
  * @param {ChatInputCommandInteraction} interaction
- * @return {Discord.EmbedBuilder}
+ * @return {EmbedBuilder}
  */
 const createEmbed = (data, interaction) => {
   const text = data.translation.split('. ')[0];
 
-  const reply = new Discord.EmbedBuilder({
+  const reply = new EmbedBuilder({
     title: data.title,
     description: `${text}.`,
     type: 'link',

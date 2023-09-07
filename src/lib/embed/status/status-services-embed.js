@@ -1,21 +1,27 @@
-const Discord = require('discord.js');
-const { getSystemName, getStatusName, getStatusIcon } = require('./status-helpers');
+const { EmbedBuilder } = require('discord.js');
+const { getStatusIcon } = require('./status-helpers');
+const { translate } = require('../../translate');
 
-const createEmbed = (data) => {
-  const reply = new Discord.EmbedBuilder({
+/**
+ * @param {Object} data
+ * @param {ChatInputCommandInteraction} interaction
+ * @return {EmbedBuilder}
+ */
+const createEmbed = (data, interaction) => {
+  const reply = new EmbedBuilder({
     title: 'RSI System Status',
     type: 'link',
     url: 'https://status.robertsspaceindustries.com/',
     footer: {
-      text: 'Letzte Änderung',
+      text: translate(interaction, 'last_changed'),
     },
     timestamp: data.updatedAt,
   });
 
   reply.addFields([
-    { name: getSystemName('platform'), value: `${getStatusIcon(data.platform)} | ${getStatusName(data.platform)}` },
-    { name: getSystemName('pu'), value: `${getStatusIcon(data.pu)} | ${getStatusName(data.pu)}` },
-    { name: getSystemName('ea'), value: `${getStatusIcon(data.ea)} | ${getStatusName(data.ea)}` },
+    { name: translate(interaction, 'platform'), value: `${getStatusIcon(data.platform)} | ${translate(interaction, data.platform)}` },
+    { name: translate(interaction, 'pu'), value: `${getStatusIcon(data.pu)} | ${translate(interaction, data.pu)}` },
+    { name: translate(interaction, 'ea'), value: `${getStatusIcon(data.ea)} | ${translate(interaction, data.ea)}` },
   ]);
 
   return reply;

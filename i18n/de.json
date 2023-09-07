@@ -80,5 +80,15 @@
   "resolved": "Behoben",
   "severity": "Schweregrad",
   "incident_date": "Seit",
-  "updated_date": "Aktualisierung"
+  "updated_date": "Aktualisierung",
+
+  "operational": "Funktionsfähig",
+  "under-maintenance": "Wartung",
+  "major-outage":  "Großausfall",
+  "partial-outage": "Teilweiser Ausfall",
+  "degraded-performance":  "Verminderte Leistung",
+
+  "platform": "Plattform",
+  "pu": "Persistent Universe",
+  "ea": "Electronic Access"
 }

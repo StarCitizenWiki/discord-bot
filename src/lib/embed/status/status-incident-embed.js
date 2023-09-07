@@ -1,16 +1,16 @@
-const Discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const {
-  getSystemName, getStatusName, getStatusIcon, getStatusColor, formatDescription,
+  getStatusIcon, getStatusColor, formatDescription,
 } = require('./status-helpers');
 const { translate, getLocale } = require('../../translate');
 
 /**
  * @param {Object} data
  * @param {ChatInputCommandInteraction} interaction
- * @return {Discord.EmbedBuilder}
+ * @return {EmbedBuilder}
  */
 const createEmbed = (data, interaction) => {
-  const reply = new Discord.EmbedBuilder({
+  const reply = new EmbedBuilder({
     title: data.title,
     description: formatDescription(data.content),
     type: 'link',
@@ -24,11 +24,11 @@ const createEmbed = (data, interaction) => {
   reply.addFields([
     {
       name: translate(interaction, 'affected_systems'),
-      value: JSON.parse(data.affected_systems).map((system) => getSystemName(system)).join(', '),
+      value: JSON.parse(data.affected_systems).map((system) => translate(interaction, system)).join(', '),
       inline: true,
     },
     { name: translate(interaction, 'resolved'), value: data.resolved === true ? translate(interaction, 'yes') : translate(interaction, 'no'), inline: true },
-    { name: translate(interaction, 'severity'), value: `${getStatusIcon(data.severity)} | ${getStatusName(data.severity)}`, inline: true },
+    { name: translate(interaction, 'severity'), value: `${getStatusIcon(data.severity)} | ${translate(interaction, data.severity)}`, inline: true },
     { name: translate(interaction, 'incident_date'), value: data.incident_date.toLocaleString(getLocale(interaction)), inline: true },
     { name: translate(interaction, 'updated_date'), value: data.updated_date.toLocaleString(getLocale(interaction)), inline: true },
   ]);

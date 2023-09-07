@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { footer, wiki_url } = require('../../../../config.json');
 const { translate, getLocale } = require('../../translate');
 
@@ -59,10 +59,10 @@ const formatCargo = (cargo, interaction) => {
 /**
  * @param {Object} data
  * @param {ChatInputCommandInteraction} interaction
- * @return {Discord.EmbedBuilder}
+ * @return {EmbedBuilder}
  */
 const createEmbed = (data, interaction) => {
-  const reply = new Discord.EmbedBuilder({
+  const reply = new EmbedBuilder({
     timestamp: data.timestamp,
     title: data.name,
     description: data.description.length === 0 ? '-' : data.description,

@@ -66,7 +66,7 @@ module.exports = {
         ],
       });
 
-      return interaction.editReply({ embeds: [createStatusEmbed(data)] });
+      return interaction.editReply({ embeds: [createStatusEmbed(data, interaction)] });
     }
 
     if ((add || remove) === true) {
@@ -82,7 +82,7 @@ module.exports = {
         ],
       });
 
-      return interaction.editReply({ embeds: [createIncidentEmbed(data)] });
+      return interaction.editReply({ embeds: [createIncidentEmbed(data, interaction)] });
     }
 
     return interaction.editReply({ content: 'Option muss auf "true" gesetzt werden.' });

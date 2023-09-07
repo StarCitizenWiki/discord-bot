@@ -1,8 +1,8 @@
-const Discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { footer, wiki_url } = require('../../../../config.json');
 
 const createEmbed = (data, title) => {
-  const reply = new Discord.EmbedBuilder({
+  const reply = new EmbedBuilder({
     title: `${title}`,
     type: 'link',
     url: `${wiki_url}/${title}`,

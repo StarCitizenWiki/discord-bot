@@ -1,9 +1,9 @@
-const Discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { footer, wiki_url } = require('../../../../config.json');
 const { translate } = require('../../translate');
 
 const createEmbed = (data, interaction) => {
-  const reply = new Discord.EmbedBuilder({
+  const reply = new EmbedBuilder({
     title: translate(interaction, 'starsystems'),
     type: 'link',
     url: `${wiki_url}/Sternensysteme`,
