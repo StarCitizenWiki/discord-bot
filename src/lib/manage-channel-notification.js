@@ -1,4 +1,4 @@
-const { PermissionFlags, ChatInputCommandInteraction } = require('discord.js');
+const { PermissionsBitField, ChatInputCommandInteraction } = require('discord.js');
 const { database } = require('./db');
 
 /**
@@ -78,7 +78,7 @@ const manageChannelNotification = async (interaction, model, type) => {
     return false;
   }
 
-  if (!interaction.member.permissions.has(PermissionFlags.Administrator)) {
+  if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
     await interaction.editReply({ content: 'Nur Administratoren können Benachrichtigungen aktivieren.' });
 
     return false;
