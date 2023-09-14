@@ -55,7 +55,7 @@ const execute = async () => {
 
   const embed = createEmbed(data);
 
-  if (embed.fields.length === 0) {
+  if (embed.length === 0) {
     return;
   }
 
