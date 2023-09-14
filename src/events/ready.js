@@ -5,7 +5,7 @@ const statusSchedule = require('../schedule/update-status');
 const statusNotificationSchedule = require('../schedule/status-notification');
 const {
   local, comm_link_interval, status_interval,
-} = require('../config.json');
+} = require('../../config.json');
 
 let comm_link_interval_id = null;
 let status_interval_id = null;
